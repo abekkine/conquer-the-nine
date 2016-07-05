@@ -1,6 +1,9 @@
 #include "Game.h"
 
 #include <iostream>
+#include <exception>
+
+#include "Display.h"
 
 Game::Game()
 {
@@ -15,6 +18,14 @@ Game::~Game()
 void Game::Init()
 {
 	std::cout << "Game::Init()" << std::endl;
+	try
+	{
+		Display::Instance()->InitDisplay();
+	}
+	catch (std::exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 }
 
 void Game::Exit()
@@ -25,4 +36,6 @@ void Game::Exit()
 void Game::Run()
 {
 	std::cout << "Game::Run()" << std::endl;
+
+	Display::Instance()->Run();
 }

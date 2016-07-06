@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <math.h>
+
 #include "Exception.h"
 #include "TextManager.h"
 

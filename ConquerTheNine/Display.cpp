@@ -87,23 +87,50 @@ void Display::InitDisplay()
 	glfwMakeContextCurrent(window_);
 	glfwSwapInterval(1);
 
+	try {
+		TextManager::Instance()->AddFont("ubuntu", "c:/source/fonts/ubuntumono/ubuntu44mono-r.ttf");
+		TextManager::Instance()->AddFont("droid", "c:/source/fonts/droidsansmono/droids44ansmono.ttf");
+		TextManager::Instance()->AddFont("anonym", "c:/source/fonts/anonymouspro/anony44mous_pro.ttf");
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 	TextManager::Instance()->Init();
 }
 
 void Display::RenderWorldContents()
 {
+	static double a = 0.0;
+	double s;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 
+	glLoadIdentity();
+	glPushMatrix();
+	glTranslatef(0.0f, 0.0f, 0.0f);
+	glRotatef(a, 0.0f, 0.0f, 1.0f);
+	a += 1.0;
+	s = 0.46 + 0.04*sin(12.0* a * 3.14159 / 180.0);
 	glColor3f(0.5f, 1.0f, 0.5f);
 	glBegin(GL_QUADS);
-	glVertex2f(-0.5f, -0.5f);
-	glVertex2f(0.5f, -0.5f);
-	glVertex2f(0.5f, 0.5f);
-	glVertex2f(-0.5f, 0.5f);
+	glVertex2d(-s, -s);
+	glVertex2d(s, -s);
+	glVertex2d(s, s);
+	glVertex2d(-s, s);
 	glEnd();
+
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_LINE_LOOP);
+	glVertex2d(-0.5, -0.5);
+	glVertex2d(0.5, -0.5);
+	glVertex2d(0.5, 0.5);
+	glVertex2d(-0.5, 0.5);
+	glEnd();
+
+	glPopMatrix();
 }
 
 void Display::RenderScreenContents()
@@ -114,8 +141,17 @@ void Display::RenderScreenContents()
 	glMatrixMode(GL_MODELVIEW);
 
 	glColor3f(1.0f, 1.0f, 1.0f);
-	glRasterPos2i(10, 10);
-	TextManager::Instance()->Render("Hello!");
+	glRasterPos2i(300, 50);
+	TextManager::Instance()->UseFont("anonym", 40);
+	TextManager::Instance()->Render("Anonymous Pro, 40");
+
+	glRasterPos2i(300, 100);
+	TextManager::Instance()->UseFont("droid", 40);
+	TextManager::Instance()->Render("Droid Sans Mono, 40");
+
+	glRasterPos2i(300, 150);
+	TextManager::Instance()->UseFont("ubuntu", 40);
+	TextManager::Instance()->Render("Ubuntu Mono, 40");
 }
 
 void Display::Run()

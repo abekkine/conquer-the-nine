@@ -1,15 +1,23 @@
-#include <stdio.h>
+#include <iostream>
 
+#include "Exception.h"
 #include "ConquerTheNine.h"
 
 int main(void)
 {
-	puts("Conquer The Nine!");
+	std::cout << "Conquer The Nine!" << std::endl;
 	ConquerTheNine* game = new ConquerTheNine();
 
-	game->Init();
-	game->Run();
-	game->Exit();
+	try {
+		game->Init();
+		game->Run();
+		game->Exit();
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+		return 1;
+	}
 
 	return 0;
 }

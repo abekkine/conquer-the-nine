@@ -17,6 +17,9 @@ private:
 	static void errorCallback(int error, const char* description);
 	static void resizeCallback(GLFWwindow* w, int width, int height);
 	static void keyCallback(GLFWwindow* w, int key, int scancode, int action, int mods);
+	static void mouseButtonCallback(GLFWwindow* w, int button, int action, int mods);
+	static void cursorPositionCallback(GLFWwindow* w, double x, double y);
+	static void scrollCallback(GLFWwindow* w, double x, double y);
 
 	void RenderWorldContents();
 	void RenderScreenContents();
@@ -28,9 +31,13 @@ public:
 	void InitDisplay();
 	void Run();
 
+	// Handler methods
 	void ErrorHandler(int error, std::string description);
 	void ResizeHandler(GLFWwindow* w, int width, int height);
 	void KeyHandler(GLFWwindow* w, int key, int scancode, int action, int mods);
+	void CursorPositionHandler(GLFWwindow* w, double x, double y);
+	void MouseButtonHandler(GLFWwindow* w, int button, int action, int mods);
+	void MouseScrollHandler(GLFWwindow* w, double x, double y);
 };
 
 #endif // DISPLAY_H_

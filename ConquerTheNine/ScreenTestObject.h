@@ -1,0 +1,20 @@
+#ifndef SCREEN_TEST_OBJECT_H_
+#define SCREEN_TEST_OBJECT_H_
+
+#include "DisplayObjectInterface.h"
+
+class ScreenTestObject : public DisplayObjectInterface
+{
+public:
+	ScreenTestObject();
+	~ScreenTestObject();
+
+	virtual void KeyEvent(int key, int scancode, int action, int mods) {}
+	virtual void MouseButtonEvent(int button, int action, int mods) {}
+	virtual void CursorPositionEvent(double x, double y) {}
+	virtual void RenderToWorld() {}
+	virtual void RenderToScreen();
+	virtual void Init();
+};
+
+#endif // SCREEN_TEST_OBJECT_H_

@@ -5,6 +5,8 @@
 
 #include "Exception.h"
 #include "Display.h"
+#include "ScreenTestObject.h"
+#include "WorldTestObject.h"
 
 Game::Game()
 {
@@ -22,7 +24,15 @@ void Game::Init()
 
 	try
 	{
-		Display::Instance()->InitDisplay();
+		DisplayObjectInterface* obj;
+
+		obj = new ScreenTestObject();
+		Display::Instance()->AddDisplayObject(obj);
+
+		obj = new WorldTestObject();
+		Display::Instance()->AddDisplayObject(obj);
+
+		Display::Instance()->Init();
 	}
 	catch (Exception& e)
 	{

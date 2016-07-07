@@ -2,10 +2,7 @@
 
 #include <iostream>
 
-#include <math.h>
-
 #include "Exception.h"
-#include "TextManager.h"
 
 Display* Display::instance_ = 0;
 
@@ -116,6 +113,29 @@ void Display::MouseScrollHandler(GLFWwindow* w, double x, double y)
 }
 // END handlers
 
+void Display::AddDisplayObject(DisplayObjectInterface* obj)
+{
+	objects_.push_back(obj);
+}
+
+void Display::InitObjects()
+{
+	ObjContainerType::const_iterator it;
+	DisplayObjectInterface* iObject;
+
+	for (it = objects_.begin(); it != objects_.end(); ++it)
+	{
+		iObject = *it;
+		iObject->Init();
+	}
+}
+
+void Display::Init()
+{
+	InitDisplay();
+	InitObjects();
+}
+
 void Display::InitDisplay()
 {
 	std::cout << "Display::InitDisplay()" << std::endl;
@@ -145,51 +165,38 @@ void Display::InitDisplay()
 
 	glfwMakeContextCurrent(window_);
 	glfwSwapInterval(1);
+}
 
-	try {
-		TextManager::Instance()->AddFont("ubuntu", "c:/source/fonts/ubuntumono/ubuntu44mono-r.ttf");
-		TextManager::Instance()->AddFont("droid", "c:/source/fonts/droidsansmono/droids44ansmono.ttf");
-		TextManager::Instance()->AddFont("anonym", "c:/source/fonts/anonymouspro/anony44mous_pro.ttf");
-	}
-	catch (std::exception& e)
+void Display::RenderWorldObjects()
+{
+	ObjContainerType::const_iterator it;
+	DisplayObjectInterface* iObject;
+	for (it = objects_.begin(); it != objects_.end(); ++it)
 	{
-		std::cout << e.what() << std::endl;
+		iObject = *it;
+		iObject->RenderToWorld();
 	}
-	TextManager::Instance()->Init();
 }
 
 void Display::RenderWorldContents()
 {
-	static double a = 0.0;
-	double s;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 
-	glLoadIdentity();
-	glPushMatrix();
-	glTranslatef(0.0f, 0.0f, 0.0f);
-	glRotatef(a, 0.0f, 0.0f, 1.0f);
-	a += 1.0;
-	s = 0.46 + 0.04*sin(12.0* a * 3.14159 / 180.0);
-	glColor3f(0.5f, 1.0f, 0.5f);
-	glBegin(GL_QUADS);
-	glVertex2d(-s, -s);
-	glVertex2d(s, -s);
-	glVertex2d(s, s);
-	glVertex2d(-s, s);
-	glEnd();
+	RenderWorldObjects();
+}
 
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glBegin(GL_LINE_LOOP);
-	glVertex2d(-0.5, -0.5);
-	glVertex2d(0.5, -0.5);
-	glVertex2d(0.5, 0.5);
-	glVertex2d(-0.5, 0.5);
-	glEnd();
-
-	glPopMatrix();
+void Display::RenderScreenObjects()
+{
+	ObjContainerType::const_iterator it;
+	DisplayObjectInterface* iObject;
+	for (it = objects_.begin(); it != objects_.end(); ++it)
+	{
+		iObject = *it;
+		iObject->RenderToScreen();
+	}
 }
 
 void Display::RenderScreenContents()
@@ -199,18 +206,7 @@ void Display::RenderScreenContents()
 	glOrtho(0, 800, 0, 800, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
 
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glRasterPos2i(300, 50);
-	TextManager::Instance()->UseFont("anonym", 40);
-	TextManager::Instance()->Render("Anonymous Pro, 40");
-
-	glRasterPos2i(300, 100);
-	TextManager::Instance()->UseFont("droid", 40);
-	TextManager::Instance()->Render("Droid Sans Mono, 40");
-
-	glRasterPos2i(300, 150);
-	TextManager::Instance()->UseFont("ubuntu", 40);
-	TextManager::Instance()->Render("Ubuntu Mono, 40");
+	RenderScreenObjects();
 }
 
 void Display::Run()

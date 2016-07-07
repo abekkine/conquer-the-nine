@@ -4,12 +4,17 @@
 #include <GLFW/glfw3.h>
 
 #include <string>
+#include <vector>
+
+#include "DisplayObjectInterface.h"
 
 class Display
 {
 private:
 	static Display* instance_;
 	GLFWwindow* window_;
+	typedef	std::vector<DisplayObjectInterface*> ObjContainerType;
+	ObjContainerType objects_;
 
 private:
 	Display();
@@ -21,14 +26,19 @@ private:
 	static void cursorPositionCallback(GLFWwindow* w, double x, double y);
 	static void scrollCallback(GLFWwindow* w, double x, double y);
 
+	void InitDisplay();
+	void InitObjects();
+	void RenderWorldObjects();
 	void RenderWorldContents();
+	void RenderScreenObjects();
 	void RenderScreenContents();
 
 public:
 	static Display* Instance();
 	~Display();
 
-	void InitDisplay();
+	void AddDisplayObject(DisplayObjectInterface* obj);
+	void Init();
 	void Run();
 
 	// Handler methods

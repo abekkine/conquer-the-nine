@@ -150,7 +150,9 @@
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ScreenTestObject.cpp" />
     <ClCompile Include="TextManager.cpp" />
+    <ClCompile Include="WorldTestObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -160,7 +162,10 @@
     <ClInclude Include="Display.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="DisplayObjectInterface.h" />
+    <ClInclude Include="ScreenTestObject.h" />
     <ClInclude Include="TextManager.h" />
+    <ClInclude Include="WorldTestObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -9,6 +9,7 @@
 #include "ScreenTestObject.h"
 #include "WorldTestObject.h"
 #include "GameMenu.h"
+#include "GameSettings.h"
 
 Game::Game()
 {
@@ -28,6 +29,7 @@ void Game::Init()
 	try
 	{
 		GameState::Instance()->OfGame(this);
+		GameState::Instance()->State(GameState::gsMENU);
 
 		obj = new ScreenTestObject();
 		Display::Instance()->AddDisplayObject(obj);
@@ -36,6 +38,9 @@ void Game::Init()
 		Display::Instance()->AddDisplayObject(obj);
 
 		obj = new GameMenu();
+		Display::Instance()->AddDisplayObject(obj);
+
+		obj = new GameSettings();
 		Display::Instance()->AddDisplayObject(obj);
 
 		Display::Instance()->Init();

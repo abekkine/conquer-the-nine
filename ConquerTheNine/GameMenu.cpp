@@ -16,8 +16,20 @@ GameMenu::~GameMenu()
 {
 }
 
+bool GameMenu::StateMismatch()
+{
+	GameState::GameStateType s = GameState::Instance()->State();
+
+	if (s == GameState::gsMENU)
+		return false;
+	else
+		return true;
+}
+
 void GameMenu::KeyEvent(int key, int scancode, int action, int mods)
 {
+	if (StateMismatch())
+		return;
 	if (action == GLFW_PRESS)
 	{
 		switch (key)
@@ -33,20 +45,10 @@ void GameMenu::KeyEvent(int key, int scancode, int action, int mods)
 	}
 }
 
-void GameMenu::MouseButtonEvent(int button, int action, int mods)
-{
-}
-
-void GameMenu::CursorPositionEvent(double x, double y)
-{
-}
-
 void GameMenu::RenderToScreen()
 {
-	if (GameState::gsMENU != GameState::Instance()->State())
-	{
+	if (StateMismatch())
 		return;
-	}
 
 	MenuContainerType::const_iterator it;
 	TextManager::Instance()->UseFont("ubuntu", 40);
@@ -72,29 +74,26 @@ void GameMenu::RenderToScreen()
 
 void GameMenu::Init()
 {
-	const int menuLeft = 100;
-	const int menuStep = 50;
-	int menuY = 700;
+	const int left = 100;
+	const int step = 50;
+	int y = 700;
 
-	menuItems_.push_back({ std::string("New Game"), menuLeft, menuY, false, GameState::gsINITGAME });
-	menuY -= menuStep;
-	menuItems_.push_back({ std::string("Continue"), menuLeft, menuY, true, GameState::gsLOADGAME });
-	menuY -= menuStep;
-	menuItems_.push_back({ std::string("Settings"), menuLeft, menuY, false, GameState::gsSETTINGS });
-	menuY -= menuStep;
-	menuItems_.push_back({ std::string("Quit"), menuLeft, menuY, false, GameState::gsQUIT });
+	menuItems_.push_back({ std::string("New Game"), left, y, false, GameState::gsINITGAME });
+	y -= step;
+	menuItems_.push_back({ std::string("Continue"), left, y, true, GameState::gsLOADGAME });
+	y -= step;
+	menuItems_.push_back({ std::string("Settings"), left, y, false, GameState::gsSETTINGS });
+	y -= step;
+	menuItems_.push_back({ std::string("Quit"), left, y, false, GameState::gsQUIT });
 
 	selected_ = menuItems_.begin();
-	if (selected_ == menuItems_.end())
-	{
-		throw Exception("Unable to find default menu item!");
-	}
 }
 
 void GameMenu::SelectNextCircular()
 {
 	selected_ = std::next(selected_);
-	if (selected_ == menuItems_.end()) {
+	if (selected_ == menuItems_.end())
+	{
 		selected_ = menuItems_.begin();
 	}
 }

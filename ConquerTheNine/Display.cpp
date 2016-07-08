@@ -76,7 +76,8 @@ void Display::KeyHandler(GLFWwindow* w, int key, int scancode, int action, int m
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
-		glfwSetWindowShouldClose(window_, GLFW_TRUE);
+		//glfwSetWindowShouldClose(window_, GLFW_TRUE);
+		GameState::Instance()->State(GameState::gsMENU);
 	}
 	else {
 		ObjContainerType::const_iterator it;

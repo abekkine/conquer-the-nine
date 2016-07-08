@@ -35,14 +35,6 @@ public:
 	GameStateType State();
 	void State(GameStateType state);
 	std::string StateName();
-
-	void SelectContinue();
-	void SelectNewGame();
-	void SelectSettings();
-	void SelectPause();
-	void SelectResume();
-	void SelectQuit();
-	void SelectMenu();
 };
 
 #endif // GAME_STATE_H_

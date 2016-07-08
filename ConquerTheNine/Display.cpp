@@ -76,7 +76,6 @@ void Display::KeyHandler(GLFWwindow* w, int key, int scancode, int action, int m
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
-		//glfwSetWindowShouldClose(window_, GLFW_TRUE);
 		GameState::Instance()->State(GameState::gsMENU);
 	}
 	else {
@@ -226,6 +225,11 @@ void Display::Run()
 	std::cout << "Display::Run()" << std::endl;
 	while (!glfwWindowShouldClose(window_))
 	{
+		if (GameState::Instance()->State() == GameState::gsQUIT)
+		{
+			glfwSetWindowShouldClose(window_, GLFW_TRUE);
+		}
+
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		RenderWorldContents();

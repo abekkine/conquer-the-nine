@@ -71,39 +71,3 @@ std::string GameState::StateName()
 	return name;
 }
 
-void GameState::SelectContinue()
-{
-	// Load saved game and go to gsPLAY state.
-	game_->Load();
-	state_ = gsPLAY;
-}
-
-void GameState::SelectNewGame()
-{
-	state_ = gsPLAY;
-}
-
-void GameState::SelectSettings()
-{
-	state_ = gsSETTINGS;
-}
-
-void GameState::SelectPause()
-{
-	state_ = gsPAUSE;
-}
-
-void GameState::SelectResume()
-{
-
-}
-
-void GameState::SelectQuit()
-{
-
-}
-
-void GameState::SelectMenu()
-{
-
-}

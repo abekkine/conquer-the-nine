@@ -32,6 +32,7 @@ void GameSettings::KeyEvent(int key, int scancode, int action, int mods)
 {
 	if (StateMismatch())
 		return;
+
 	if (action == GLFW_PRESS)
 	{
 		switch (key)

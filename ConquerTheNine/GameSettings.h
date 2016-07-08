@@ -10,14 +10,16 @@
 class GameSettings : public DisplayObjectInterface
 {
 private:
-	typedef struct {
+	typedef std::vector<std::string> ValueListType;
+	struct SettingItem {
 		std::string label;
-		std::string value;
+		ValueListType::iterator value;
+		ValueListType valueList;
 		int x, y;
 		GameState::GameStateType targetState;
-	} SettingItemType;
+	};
 
-	typedef std::vector<SettingItemType> SettingContainerType;
+	typedef std::vector<SettingItem*> SettingContainerType;
 	SettingContainerType settingItems_;
 	SettingContainerType::iterator selected_;
 

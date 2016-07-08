@@ -4,7 +4,6 @@ Conquer the Nine is a shoot-em-up game taking place in (some?) solar system. Pla
 
 Game will be developed using OpenGL (glfw). 
 
-[![Stories in Backlog](https://badge.waffle.io/abekkine/conquer-the-nine.svg?label=backlog&title=Backlog)](http://waffle.io/abekkine/conquer-the-nine)
 [![Stories in Ready](https://badge.waffle.io/abekkine/conquer-the-nine.svg?label=ready&title=Ready)](http://waffle.io/abekkine/conquer-the-nine)
 [![Stories in Progress](https://badge.waffle.io/abekkine/conquer-the-nine.svg?label=in%20progress&title=InProgress)](http://waffle.io/abekkine/conquer-the-nine)
 [![Stories in Review](https://badge.waffle.io/abekkine/conquer-the-nine.svg?label=review&title=Review)](http://waffle.io/abekkine/conquer-the-nine)

@@ -3,6 +3,8 @@
 #include <math.h>
 #include <GLFW/glfw3.h>
 
+#include "GameState.h"
+
 WorldTestObject::WorldTestObject()
 {
 }
@@ -18,6 +20,11 @@ void WorldTestObject::Init()
 
 void WorldTestObject::RenderToWorld()
 {
+	if (GameState::gsTEST != GameState::Instance()->State())
+	{
+		return;
+	}
+
 	double s;
 
 	glLoadIdentity();

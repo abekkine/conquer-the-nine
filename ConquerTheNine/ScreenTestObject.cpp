@@ -4,12 +4,12 @@
 
 #include <GLFW/glfw3.h>
 
+#include "GameState.h"
 #include "TextManager.h"
 
 ScreenTestObject::ScreenTestObject()
 {
 }
-
 
 ScreenTestObject::~ScreenTestObject()
 {
@@ -31,6 +31,11 @@ void ScreenTestObject::Init()
 
 void ScreenTestObject::RenderToScreen()
 {
+	if (GameState::gsTEST != GameState::Instance()->State())
+	{
+		return;
+	}
+
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glRasterPos2i(300, 50);
 	TextManager::Instance()->UseFont("anonym", 20);

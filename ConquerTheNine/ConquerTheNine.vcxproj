@@ -149,6 +149,8 @@
     <ClCompile Include="ConquerTheNine.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameMenu.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ScreenTestObject.cpp" />
     <ClCompile Include="TextManager.cpp" />
@@ -163,6 +165,8 @@
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DisplayObjectInterface.h" />
+    <ClInclude Include="GameMenu.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="ScreenTestObject.h" />
     <ClInclude Include="TextManager.h" />
     <ClInclude Include="WorldTestObject.h" />

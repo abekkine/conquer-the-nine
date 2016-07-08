@@ -9,6 +9,8 @@ public:
 	void Init();
 	void Exit();
 	void Run();
+	void Load();
+	void Save();
 };
 
 #endif // GAME_H_

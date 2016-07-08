@@ -32,6 +32,7 @@ private:
 	void RenderWorldContents();
 	void RenderScreenObjects();
 	void RenderScreenContents();
+	void RenderState();
 
 public:
 	static Display* Instance();

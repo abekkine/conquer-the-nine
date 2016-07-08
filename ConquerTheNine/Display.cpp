@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "Exception.h"
+#include "TextManager.h"
+#include "GameState.h"
 
 Display* Display::instance_ = 0;
 
@@ -72,37 +74,35 @@ void Display::ResizeHandler(GLFWwindow* w, int width, int height)
 
 void Display::KeyHandler(GLFWwindow* w, int key, int scancode, int action, int mods)
 {
-	std::cout << "Display::KeyHandler()" << std::endl;
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window_, GLFW_TRUE);
 	}
 	else {
-		switch (key)
+		ObjContainerType::const_iterator it;
+		for (it = objects_.begin(); it != objects_.end(); ++it)
 		{
-		default:
-			std::cout << "    ";
-			std::cout << "key(" << key << "), ";
-			std::cout << "scancode(" << scancode << "), ";
-			std::cout << "action(" << action << "), ";
-			std::cout << "mods(" << mods << ")" << std::endl;
+			(*it)->KeyEvent(key, scancode, action, mods);
 		}
 	}
 }
 
 void Display::CursorPositionHandler(GLFWwindow* w, double x, double y)
 {
-	std::cout << "Display::CursorPositionHandler()" << std::endl;
-	std::cout << "    cursor @ (" << x << ", " << y << ")" << std::endl;
+	ObjContainerType::const_iterator it;
+	for (it = objects_.begin(); it != objects_.end(); ++it)
+	{
+		(*it)->CursorPositionEvent(x, y);
+	}
 }
 
 void Display::MouseButtonHandler(GLFWwindow* w, int button, int action, int mods)
 {
-	std::cout << "Display::MouseButtonHandler()" << std::endl;
-	std::cout << "    ";
-	std::cout << "button(" << button << "), ";
-	std::cout << "action(" << action << "), ";
-	std::cout << "mods(" << mods << ")" << std::endl;
+	ObjContainerType::const_iterator it;
+	for (it = objects_.begin(); it != objects_.end(); ++it)
+	{
+		(*it)->MouseButtonEvent(button, action, mods);
+	}
 }
 
 void Display::MouseScrollHandler(GLFWwindow* w, double x, double y)
@@ -115,6 +115,7 @@ void Display::MouseScrollHandler(GLFWwindow* w, double x, double y)
 
 void Display::AddDisplayObject(DisplayObjectInterface* obj)
 {
+	std::cout << "Display::AddDisplayObject()" << std::endl;
 	objects_.push_back(obj);
 }
 
@@ -197,6 +198,16 @@ void Display::RenderScreenObjects()
 		iObject = *it;
 		iObject->RenderToScreen();
 	}
+
+	RenderState();
+}
+
+void Display::RenderState()
+{
+	TextManager::Instance()->UseFont("", 20);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glRasterPos2i(20, 20);
+	TextManager::Instance()->Render(GameState::Instance()->StateName());
 }
 
 void Display::RenderScreenContents()

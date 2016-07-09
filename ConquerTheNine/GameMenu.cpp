@@ -85,6 +85,8 @@ void GameMenu::Init()
 	y -= step;
 	menuItems_.push_back({ std::string("Settings"), left, y, false, GameState::gsSETTINGS });
 	y -= step;
+	menuItems_.push_back({ std::string("Test"), left, y, false, GameState::gsTEST });
+	y -= step;
 	menuItems_.push_back({ std::string("Quit"), left, y, false, GameState::gsQUIT });
 
 	selected_ = menuItems_.begin();

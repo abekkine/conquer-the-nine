@@ -47,7 +47,7 @@ void Universe::Init()
 	}
 }
 
-void Universe::RenderToWorld()
+void Universe::Render()
 {
 	if (StateMismatch())
 		return;

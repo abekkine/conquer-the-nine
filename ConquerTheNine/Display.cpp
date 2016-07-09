@@ -168,57 +168,42 @@ void Display::InitDisplay()
 	glfwSwapInterval(1);
 }
 
-void Display::RenderWorldObjects()
+void Display::UpdateViewport(DisplayObjectInterface::Viewport& vp)
 {
-	ObjContainerType::const_iterator it;
-	DisplayObjectInterface* iObject;
-	for (it = objects_.begin(); it != objects_.end(); ++it)
-	{
-		iObject = *it;
-		iObject->RenderToWorld();
-	}
-}
-
-void Display::RenderWorldContents()
-{
-	double size = 50.0;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-size, size, -size, size, -1.0, 1.0);
+	glOrtho(vp.left, vp.right, vp.bottom, vp.top, -1.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
-
-	RenderWorldObjects();
 }
 
-void Display::RenderScreenObjects()
+void Display::RenderContents()
+{
+	RenderObjects();
+	RenderState();
+}
+
+void Display::RenderObjects()
 {
 	ObjContainerType::const_iterator it;
 	DisplayObjectInterface* iObject;
 	for (it = objects_.begin(); it != objects_.end(); ++it)
 	{
 		iObject = *it;
-		iObject->RenderToScreen();
+		UpdateViewport(iObject->GetViewport());
+		iObject->Render();
 	}
-
-	RenderState();
 }
 
 void Display::RenderState()
 {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, 800, 0, 800, -1.0, 1.0);
+	glMatrixMode(GL_MODELVIEW);
 	TextManager::Instance()->UseFont("", 20);
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glRasterPos2i(20, 20);
 	TextManager::Instance()->Render(GameState::Instance()->StateName());
-}
-
-void Display::RenderScreenContents()
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, 800, 0, 800, -1, 1);
-	glMatrixMode(GL_MODELVIEW);
-
-	RenderScreenObjects();
 }
 
 void Display::Run()
@@ -233,9 +218,7 @@ void Display::Run()
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		RenderWorldContents();
-
-		RenderScreenContents();
+		RenderContents();
 
 		glfwSwapBuffers(window_);
 

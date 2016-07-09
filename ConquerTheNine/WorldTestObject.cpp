@@ -27,7 +27,7 @@ void WorldTestObject::Init()
 	a = 0.0;
 }
 
-void WorldTestObject::RenderToWorld()
+void WorldTestObject::Render()
 {
 	if (StateMismatch())
 		return;

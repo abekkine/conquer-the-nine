@@ -28,11 +28,10 @@ private:
 
 	void InitDisplay();
 	void InitObjects();
-	void RenderWorldObjects();
-	void RenderWorldContents();
-	void RenderScreenObjects();
-	void RenderScreenContents();
+	void RenderContents();
+	void RenderObjects();
 	void RenderState();
+	void UpdateViewport(DisplayObjectInterface::Viewport& vp);
 
 public:
 	static Display* Instance();

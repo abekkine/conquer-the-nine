@@ -46,7 +46,7 @@ void GameMenu::KeyEvent(int key, int scancode, int action, int mods)
 	}
 }
 
-void GameMenu::RenderToScreen()
+void GameMenu::Render()
 {
 	if (StateMismatch())
 		return;

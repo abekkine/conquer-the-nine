@@ -38,7 +38,7 @@ void ScreenTestObject::Init()
 	TextManager::Instance()->Init();
 }
 
-void ScreenTestObject::RenderToScreen()
+void ScreenTestObject::Render()
 {
 	if (StateMismatch())
 		return;

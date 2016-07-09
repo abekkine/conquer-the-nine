@@ -33,18 +33,23 @@ void Game::Init()
 		GameState::Instance()->State(GameState::gsMENU);
 
 		obj = new ScreenTestObject();
+		obj->SetViewport(0.0, 800.0, 0.0, 800.0);
 		Display::Instance()->AddDisplayObject(obj);
 
 		obj = new WorldTestObject();
+		obj->SetViewport(-2.0, 2.0, -2.0, 2.0);
 		Display::Instance()->AddDisplayObject(obj);
 
 		obj = new GameMenu();
+		obj->SetViewport(0.0, 800.0, 0.0, 800.0);
 		Display::Instance()->AddDisplayObject(obj);
 
 		obj = new GameSettings();
+		obj->SetViewport(0.0, 800.0, 0.0, 800.0);
 		Display::Instance()->AddDisplayObject(obj);
 
 		obj = new Universe();
+		obj->SetViewport(-150.0, 150.0, -150.0, 150.0);
 		Display::Instance()->AddDisplayObject(obj);
 
 		Display::Instance()->Init();

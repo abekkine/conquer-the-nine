@@ -181,9 +181,10 @@ void Display::RenderWorldObjects()
 
 void Display::RenderWorldContents()
 {
+	double size = 50.0;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+	glOrtho(-size, size, -size, size, -1.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 
 	RenderWorldObjects();

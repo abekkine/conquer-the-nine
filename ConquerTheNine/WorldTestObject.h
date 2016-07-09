@@ -17,6 +17,7 @@ public:
 	virtual void RenderToWorld();
 	virtual void RenderToScreen() {}
 	virtual void Init();
+	virtual bool StateMismatch();
 };
 
 #endif // WORLD_TEST_OBJECT_H_

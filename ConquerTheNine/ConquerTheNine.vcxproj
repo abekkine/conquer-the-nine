@@ -155,6 +155,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ScreenTestObject.cpp" />
     <ClCompile Include="TextManager.cpp" />
+    <ClCompile Include="Universe.cpp" />
     <ClCompile Include="WorldTestObject.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +172,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="ScreenTestObject.h" />
     <ClInclude Include="TextManager.h" />
+    <ClInclude Include="Universe.h" />
     <ClInclude Include="WorldTestObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

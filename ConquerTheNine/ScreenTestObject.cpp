@@ -15,6 +15,15 @@ ScreenTestObject::~ScreenTestObject()
 {
 }
 
+bool ScreenTestObject::StateMismatch()
+{
+	GameState::GameStateType s = GameState::Instance()->State();
+	if (s == GameState::gsTEST)
+		return false;
+	else
+		return true;
+}
+
 void ScreenTestObject::Init()
 {
 	try {
@@ -31,10 +40,8 @@ void ScreenTestObject::Init()
 
 void ScreenTestObject::RenderToScreen()
 {
-	if (GameState::gsTEST != GameState::Instance()->State())
-	{
+	if (StateMismatch())
 		return;
-	}
 
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glRasterPos2i(300, 50);

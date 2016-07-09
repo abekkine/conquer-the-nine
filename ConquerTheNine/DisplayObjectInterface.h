@@ -10,6 +10,7 @@ public:
 	virtual void Init() = 0;
 	virtual void RenderToWorld() = 0;
 	virtual void RenderToScreen() = 0;
+	virtual bool StateMismatch() = 0;
 };
 
 #endif // DISPLAY_OBJECT_INTERFACE_H_

@@ -23,10 +23,13 @@ public:
 	} GameStateType;
 
 private:
-	GameState();
 	static GameState* instance_;
 	GameStateType state_;
 	Game* game_;
+
+	GameState();
+	void PreProcess();
+	void PostProcess();
 
 public:
 	static GameState* Instance();

@@ -10,6 +10,7 @@
 #include "WorldTestObject.h"
 #include "GameMenu.h"
 #include "GameSettings.h"
+#include "Universe.h"
 
 Game::Game()
 {
@@ -41,6 +42,9 @@ void Game::Init()
 		Display::Instance()->AddDisplayObject(obj);
 
 		obj = new GameSettings();
+		Display::Instance()->AddDisplayObject(obj);
+
+		obj = new Universe();
 		Display::Instance()->AddDisplayObject(obj);
 
 		Display::Instance()->Init();

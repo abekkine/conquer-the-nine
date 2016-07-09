@@ -13,6 +13,15 @@ WorldTestObject::~WorldTestObject()
 {
 }
 
+bool WorldTestObject::StateMismatch()
+{
+	GameState::GameStateType s = GameState::Instance()->State();
+	if (s == GameState::gsTEST)
+		return false;
+	else
+		return true;
+}
+
 void WorldTestObject::Init()
 {
 	a = 0.0;
@@ -20,15 +29,13 @@ void WorldTestObject::Init()
 
 void WorldTestObject::RenderToWorld()
 {
-	if (GameState::gsTEST != GameState::Instance()->State())
-	{
+	if (StateMismatch())
 		return;
-	}
 
 	double s;
 
-	glLoadIdentity();
 	glPushMatrix();
+	glLoadIdentity();
 	glTranslated(0.0, 0.0, 0.0);
 	glRotated(a, 0.0, 0.0, 1.0);
 	a += 1.0;

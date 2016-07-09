@@ -34,7 +34,35 @@ GameState::GameStateType GameState::State()
 
 void GameState::State(GameState::GameStateType state)
 {
+	PreProcess();
+
 	state_ = state;
+
+	PostProcess();
+}
+
+void GameState::PreProcess()
+{
+	// TODO : Tasks before leaving the state.
+}
+
+void GameState::PostProcess()
+{
+	// TODO : Tasks after setting the state.
+	switch (state_)
+	{
+	case gsINITGAME:
+		State(gsPLAY);
+		break;
+	case gsLOADGAME:
+		break;
+	case gsSAVEGAME:
+		break;
+	case gsPAUSE:
+		break;
+	case gsSAVESETTINGS:
+		break;
+	}
 }
 
 std::string GameState::StateName()

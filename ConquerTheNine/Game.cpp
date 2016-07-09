@@ -32,25 +32,34 @@ void Game::Init()
 		GameState::Instance()->OfGame(this);
 		GameState::Instance()->State(GameState::gsMENU);
 
+		Display::Viewport v;
+
+		v.left = v.bottom = 0.0;
+		v.right = v.top = 800.0;
+		Display::Instance()->AddLayerViewport("text", v);
+
+		v.left = v.bottom = -50.0;
+		v.right = v.top = 50.0;
+		Display::Instance()->AddLayerViewport("game", v);
+
+		v.left = v.bottom = -2.0;
+		v.right = v.top = 2.0;
+		Display::Instance()->AddLayerViewport("test", v);
+
 		obj = new ScreenTestObject();
-		obj->SetViewport(0.0, 800.0, 0.0, 800.0);
-		Display::Instance()->AddDisplayObject(obj);
+		Display::Instance()->AddDisplayObject("text", obj);
 
 		obj = new WorldTestObject();
-		obj->SetViewport(-2.0, 2.0, -2.0, 2.0);
-		Display::Instance()->AddDisplayObject(obj);
+		Display::Instance()->AddDisplayObject("test", obj);
 
 		obj = new GameMenu();
-		obj->SetViewport(0.0, 800.0, 0.0, 800.0);
-		Display::Instance()->AddDisplayObject(obj);
+		Display::Instance()->AddDisplayObject("text", obj);
 
 		obj = new GameSettings();
-		obj->SetViewport(0.0, 800.0, 0.0, 800.0);
-		Display::Instance()->AddDisplayObject(obj);
+		Display::Instance()->AddDisplayObject("text", obj);
 
 		obj = new Universe();
-		obj->SetViewport(-150.0, 150.0, -150.0, 150.0);
-		Display::Instance()->AddDisplayObject(obj);
+		Display::Instance()->AddDisplayObject("game", obj);
 
 		Display::Instance()->Init();
 	}

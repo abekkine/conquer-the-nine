@@ -79,29 +79,41 @@ void Display::KeyHandler(GLFWwindow* w, int key, int scancode, int action, int m
 		GameState::Instance()->State(GameState::gsMENU);
 	}
 	else {
-		ObjContainerType::const_iterator it;
-		for (it = objects_.begin(); it != objects_.end(); ++it)
+		LayerContainerType::const_iterator i;
+		ObjContainerType::const_iterator j;
+		for (i = layers_.begin(); i != layers_.end(); ++i)
 		{
-			(*it)->KeyEvent(key, scancode, action, mods);
+			for (j = (i->second).objects.begin(); j != (i->second).objects.end(); ++j)
+			{
+				(*j)->KeyEvent(key, scancode, action, mods);
+			}
 		}
 	}
 }
 
 void Display::CursorPositionHandler(GLFWwindow* w, double x, double y)
 {
-	ObjContainerType::const_iterator it;
-	for (it = objects_.begin(); it != objects_.end(); ++it)
+	LayerContainerType::const_iterator i;
+	ObjContainerType::const_iterator j;
+	for (i = layers_.begin(); i != layers_.end(); ++i)
 	{
-		(*it)->CursorPositionEvent(x, y);
+		for (j = (i->second).objects.begin(); j != (i->second).objects.end(); ++j)
+		{
+			(*j)->CursorPositionEvent(x, y);
+		}
 	}
 }
 
 void Display::MouseButtonHandler(GLFWwindow* w, int button, int action, int mods)
 {
-	ObjContainerType::const_iterator it;
-	for (it = objects_.begin(); it != objects_.end(); ++it)
+	LayerContainerType::const_iterator i;
+	ObjContainerType::const_iterator j;
+	for (i = layers_.begin(); i != layers_.end(); ++i)
 	{
-		(*it)->MouseButtonEvent(button, action, mods);
+		for (j = (i->second).objects.begin(); j != (i->second).objects.end(); ++j)
+		{
+			(*j)->MouseButtonEvent(button, action, mods);
+		}
 	}
 }
 
@@ -113,21 +125,53 @@ void Display::MouseScrollHandler(GLFWwindow* w, double x, double y)
 }
 // END handlers
 
-void Display::AddDisplayObject(DisplayObjectInterface* obj)
+void Display::AddDisplayObject(std::string layer, DisplayObjectInterface* obj)
 {
 	std::cout << "Display::AddDisplayObject()" << std::endl;
-	objects_.push_back(obj);
+	LayerContainerType::iterator f = layers_.find(layer);
+	if (f != layers_.end())
+	{
+		// Add to existing layer.
+		(f->second).objects.push_back(obj);
+	}
+	else
+	{
+		// New layer.
+		LayerObject L;
+		L.objects.push_back(obj);
+		layers_[layer] = L;
+	}
+}
+
+void Display::AddLayerViewport(std::string layer, Viewport viewport)
+{
+	std::cout << "Display::AddLayerViewport()" << std::endl;
+	LayerContainerType::iterator f = layers_.find(layer);
+	if (f != layers_.end())
+	{
+		// Set viewport of existing layer.
+		(f->second).viewport = viewport;
+	}
+	else
+	{
+		// New layer
+		LayerObject L;
+		L.viewport = viewport;
+		layers_[layer] = L;
+	}
 }
 
 void Display::InitObjects()
 {
-	ObjContainerType::const_iterator it;
-	DisplayObjectInterface* iObject;
+	LayerContainerType::const_iterator i;
+	ObjContainerType::const_iterator j;
 
-	for (it = objects_.begin(); it != objects_.end(); ++it)
+	for (i = layers_.begin(); i != layers_.end(); ++i)
 	{
-		iObject = *it;
-		iObject->Init();
+		for (j = (i->second).objects.begin(); j != (i->second).objects.end(); ++j)
+		{
+			(*j)->Init();
+		}
 	}
 }
 
@@ -168,7 +212,7 @@ void Display::InitDisplay()
 	glfwSwapInterval(1);
 }
 
-void Display::UpdateViewport(DisplayObjectInterface::Viewport& vp)
+void Display::UpdateViewport(Viewport& vp)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -184,13 +228,16 @@ void Display::RenderContents()
 
 void Display::RenderObjects()
 {
-	ObjContainerType::const_iterator it;
-	DisplayObjectInterface* iObject;
-	for (it = objects_.begin(); it != objects_.end(); ++it)
+	LayerContainerType::const_iterator i;
+	ObjContainerType::const_iterator j;
+
+	for (i = layers_.begin(); i != layers_.end(); ++i)
 	{
-		iObject = *it;
-		UpdateViewport(iObject->GetViewport());
-		iObject->Render();
+		UpdateViewport((Viewport&)(i->second).viewport);
+		for (j = (i->second).objects.begin(); j != (i->second).objects.end(); ++j)
+		{
+			(*j)->Render();
+		}
 	}
 }
 

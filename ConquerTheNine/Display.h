@@ -5,16 +5,27 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "DisplayObjectInterface.h"
 
 class Display
 {
+public:
+	struct Viewport {
+		double left, right, bottom, top;
+		Viewport() { left = bottom = -1.0; right = top = 1.0; }
+	};
 private:
 	static Display* instance_;
 	GLFWwindow* window_;
 	typedef	std::vector<DisplayObjectInterface*> ObjContainerType;
-	ObjContainerType objects_;
+	struct LayerObject {
+		Viewport viewport;
+		ObjContainerType objects;
+	};
+	typedef std::map<std::string, LayerObject> LayerContainerType;
+	LayerContainerType layers_;
 
 private:
 	Display();
@@ -31,13 +42,14 @@ private:
 	void RenderContents();
 	void RenderObjects();
 	void RenderState();
-	void UpdateViewport(DisplayObjectInterface::Viewport& vp);
+	void UpdateViewport(Viewport& vp);
 
 public:
 	static Display* Instance();
 	~Display();
 
-	void AddDisplayObject(DisplayObjectInterface* obj);
+	void AddLayerViewport(std::string layer, Viewport viewport);
+	void AddDisplayObject(std::string layer, DisplayObjectInterface* obj);
 	void Init();
 	void Run();
 

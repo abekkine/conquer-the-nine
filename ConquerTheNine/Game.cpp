@@ -11,6 +11,7 @@
 #include "GameMenu.h"
 #include "GameSettings.h"
 #include "Universe.h"
+#include "Player.h"
 
 Game::Game()
 {
@@ -38,9 +39,10 @@ void Game::Init()
 		v.right = v.top = 800.0;
 		Display::Instance()->AddLayerViewport("text", v);
 
+		Display::Viewport* vp;
 		v.left = v.bottom = -50.0;
 		v.right = v.top = 50.0;
-		Display::Instance()->AddLayerViewport("game", v);
+		vp = Display::Instance()->AddLayerViewport("game", v);
 
 		v.left = v.bottom = -2.0;
 		v.right = v.top = 2.0;
@@ -60,6 +62,10 @@ void Game::Init()
 
 		obj = new Universe();
 		Display::Instance()->AddDisplayObject("game", obj);
+
+		Player* p = new Player();
+		p->RegisterViewport(vp);
+		Display::Instance()->AddDisplayObject("game", p);
 
 		Display::Instance()->Init();
 	}

@@ -48,7 +48,7 @@ public:
 	static Display* Instance();
 	~Display();
 
-	void AddLayerViewport(std::string layer, Viewport viewport);
+	Viewport* AddLayerViewport(std::string layer, Viewport viewport);
 	void AddDisplayObject(std::string layer, DisplayObjectInterface* obj);
 	void Init();
 	void Run();

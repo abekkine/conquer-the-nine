@@ -143,7 +143,7 @@ void Display::AddDisplayObject(std::string layer, DisplayObjectInterface* obj)
 	}
 }
 
-void Display::AddLayerViewport(std::string layer, Viewport viewport)
+Display::Viewport* Display::AddLayerViewport(std::string layer, Viewport viewport)
 {
 	std::cout << "Display::AddLayerViewport()" << std::endl;
 	LayerContainerType::iterator f = layers_.find(layer);
@@ -151,6 +151,7 @@ void Display::AddLayerViewport(std::string layer, Viewport viewport)
 	{
 		// Set viewport of existing layer.
 		(f->second).viewport = viewport;
+		return &((f->second).viewport);
 	}
 	else
 	{
@@ -158,6 +159,8 @@ void Display::AddLayerViewport(std::string layer, Viewport viewport)
 		LayerObject L;
 		L.viewport = viewport;
 		layers_[layer] = L;
+
+		return &(layers_[layer].viewport);
 	}
 }
 

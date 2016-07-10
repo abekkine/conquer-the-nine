@@ -4,7 +4,6 @@
 
 #include <iostream>
 
-#include "GameState.h"
 #include "TextManager.h"
 #include "Exception.h"
 

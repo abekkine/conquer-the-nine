@@ -1,5 +1,7 @@
 #include "GameState.h"
 
+#include <iostream>
+
 GameState* GameState::instance_ = 0;
 
 GameState::GameState()
@@ -57,6 +59,8 @@ void GameState::PostProcess()
 	case gsLOADGAME:
 		break;
 	case gsSAVEGAME:
+		std::cout << "TODO : Save game here" << std::endl;
+		State(gsMENU);
 		break;
 	case gsPAUSE:
 		break;

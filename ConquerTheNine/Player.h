@@ -27,6 +27,7 @@ public:
 	virtual void Init();
 	virtual bool StateMismatch();
 	void RegisterViewport(Display::Viewport* vp);
+	bool IsPaused();
 };
 
 #endif // PLAYER_H_

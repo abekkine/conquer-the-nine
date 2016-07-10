@@ -153,6 +153,7 @@
     <ClCompile Include="GameSettings.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ScreenTestObject.cpp" />
     <ClCompile Include="TextManager.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="GameMenu.h" />
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ScreenTestObject.h" />
     <ClInclude Include="TextManager.h" />

@@ -9,6 +9,7 @@
 #include "ScreenTestObject.h"
 #include "WorldTestObject.h"
 #include "GameMenu.h"
+#include "PauseMenu.h"
 #include "GameSettings.h"
 #include "Universe.h"
 #include "Player.h"
@@ -55,6 +56,9 @@ void Game::Init()
 		Display::Instance()->AddDisplayObject("test", obj);
 
 		obj = new GameMenu();
+		Display::Instance()->AddDisplayObject("text", obj);
+
+		obj = new PauseMenu();
 		Display::Instance()->AddDisplayObject("text", obj);
 
 		obj = new GameSettings();

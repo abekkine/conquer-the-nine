@@ -15,10 +15,15 @@ Player::~Player()
 bool Player::StateMismatch()
 {
 	GameState::GameStateType s = GameState::Instance()->State();
-	if (s == GameState::gsPLAY)
+	if (s == GameState::gsPLAY || s == GameState::gsPAUSE)
 		return false;
 	else
 		return true;
+}
+
+bool Player::IsPaused()
+{
+	return (GameState::gsPAUSE == GameState::Instance()->State());
 }
 
 void Player::KeyEvent(int key, int scancode, int action, int mods)
@@ -26,32 +31,39 @@ void Player::KeyEvent(int key, int scancode, int action, int mods)
 	if (StateMismatch())
 		return;
 
-	switch (key)
+	if (action == GLFW_PRESS && key == GLFW_KEY_P)
 	{
-	case GLFW_KEY_UP:
-		if (action != GLFW_RELEASE)
-			vy_ = 1.0;
-		else
-			vy_ = 0.0;
-		break;
-	case GLFW_KEY_DOWN:
-		if (action != GLFW_RELEASE)
-			vy_ = -1.0;
-		else
-			vy_ = 0.0;
-		break;
-	case GLFW_KEY_LEFT:
-		if (action != GLFW_RELEASE)
-			vx_ = -1.0;
-		else
-			vx_ = 0.0;
-		break;
-	case GLFW_KEY_RIGHT:
-		if (action != GLFW_RELEASE)
-			vx_ = 1.0;
-		else
-			vx_ = 0.0;
-		break;
+		GameState::Instance()->State(GameState::gsPAUSE);
+	}
+	else if (!IsPaused())
+	{
+		switch (key)
+		{
+		case GLFW_KEY_UP:
+			if (action != GLFW_RELEASE)
+				vy_ = 1.0;
+			else
+				vy_ = 0.0;
+			break;
+		case GLFW_KEY_DOWN:
+			if (action != GLFW_RELEASE)
+				vy_ = -1.0;
+			else
+				vy_ = 0.0;
+			break;
+		case GLFW_KEY_LEFT:
+			if (action != GLFW_RELEASE)
+				vx_ = -1.0;
+			else
+				vx_ = 0.0;
+			break;
+		case GLFW_KEY_RIGHT:
+			if (action != GLFW_RELEASE)
+				vx_ = 1.0;
+			else
+				vx_ = 0.0;
+			break;
+		}
 	}
 }
 

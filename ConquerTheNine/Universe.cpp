@@ -15,7 +15,7 @@ Universe::~Universe()
 bool Universe::StateMismatch()
 {
 	GameState::GameStateType s = GameState::Instance()->State();
-	if (s == GameState::gsPLAY)
+	if (s == GameState::gsPLAY || s == GameState::gsPAUSE)
 		return false;
 	else
 		return true;

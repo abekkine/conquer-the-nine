@@ -2,6 +2,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include <iostream>
+
 #include "GameState.h"
 
 Player::Player()
@@ -111,4 +113,35 @@ void Player::RegisterViewport(Display::Viewport* vp)
 	viewport_ = vp;
 	vpHalfWidth_ = vp->right - vp->left;
 	vpHalfHeight_ = vp->top - vp->bottom;
+}
+
+void Player::Save(std::fstream& s)
+{
+	std::cout << "Saving player..." << std::endl;
+	if (s.is_open())
+	{
+		save_.x = x_;
+		save_.y = y_;
+		s.write((char *)&save_, sizeof(save_));
+	}
+	else
+	{
+		std::cout << "ERR: stream is not open!" << std::endl;
+	}
+}
+
+void Player::Load(std::fstream& s)
+{
+	std::cout << "Loading player..." << std::endl;
+	if (s.is_open())
+	{
+		s.read((char *)&save_, sizeof(save_));
+
+		x_ = save_.x;
+		y_ = save_.y;
+	}
+	else
+	{
+		std::cout << "ERR: stream is not open!" << std::endl;
+	}
 }

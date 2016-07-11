@@ -2,10 +2,11 @@
 #define PLAYER_H_
 
 #include "DisplayObjectInterface.h"
+#include "SaveableInterface.h"
 
 #include "Display.h"
 
-class Player : public DisplayObjectInterface
+class Player : public DisplayObjectInterface, public SaveableInterface
 {
 private:
 	double x_;
@@ -15,6 +16,11 @@ private:
 	Display::Viewport* viewport_;
 	double vpHalfWidth_;
 	double vpHalfHeight_;
+private:
+	struct {
+		double x;
+		double y;
+	} save_;
 
 public:
 	Player();
@@ -28,6 +34,9 @@ public:
 	virtual bool StateMismatch();
 	void RegisterViewport(Display::Viewport* vp);
 	bool IsPaused();
+	// Saveable interface
+	void Save(std::fstream& s);
+	void Load(std::fstream& s);
 };
 
 #endif // PLAYER_H_

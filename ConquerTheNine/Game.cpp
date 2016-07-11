@@ -31,6 +31,8 @@ void Game::Init()
 
 	try
 	{
+		saveManager_ = new GameSaveManager("savegame.dat");
+
 		GameState::Instance()->OfGame(this);
 		GameState::Instance()->State(GameState::gsMENU);
 
@@ -70,8 +72,12 @@ void Game::Init()
 		Player* p = new Player();
 		p->RegisterViewport(vp);
 		Display::Instance()->AddDisplayObject("game", p);
+		saveManager_->RegisterEntity(p);
 
 		Display::Instance()->Init();
+
+		// DEBUG
+		//saveManager_->Load();
 	}
 	catch (Exception& e)
 	{
@@ -93,6 +99,7 @@ void Game::Load()
 void Game::Save()
 {
 	std::cout << "Game::Save()" << std::endl;
+	saveManager_->Save();
 }
 
 void Game::Run()

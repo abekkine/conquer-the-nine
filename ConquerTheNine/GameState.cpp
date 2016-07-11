@@ -59,7 +59,7 @@ void GameState::PostProcess()
 	case gsLOADGAME:
 		break;
 	case gsSAVEGAME:
-		std::cout << "TODO : Save game here" << std::endl;
+		game_->Save();
 		State(gsMENU);
 		break;
 	case gsPAUSE:

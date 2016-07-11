@@ -38,7 +38,6 @@ private:
 	static void scrollCallback(GLFWwindow* w, double x, double y);
 
 	void InitDisplay();
-	void InitObjects();
 	void RenderContents();
 	void RenderObjects();
 	void RenderState();
@@ -51,6 +50,7 @@ public:
 	Viewport* AddLayerViewport(std::string layer, Viewport viewport);
 	void AddDisplayObject(std::string layer, DisplayObjectInterface* obj);
 	void Init();
+	void InitObjects();
 	void Run();
 
 	// Handler methods

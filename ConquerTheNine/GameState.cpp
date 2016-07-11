@@ -54,9 +54,12 @@ void GameState::PostProcess()
 	switch (state_)
 	{
 	case gsINITGAME:
+		game_->New();
 		State(gsPLAY);
 		break;
 	case gsLOADGAME:
+		game_->Load();
+		State(gsPLAY);
 		break;
 	case gsSAVEGAME:
 		game_->Save();

@@ -13,6 +13,7 @@ public:
 	void Init();
 	void Exit();
 	void Run();
+	void New();
 	void Load();
 	void Save();
 };

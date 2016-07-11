@@ -57,8 +57,9 @@ void Game::Init()
 		obj = new WorldTestObject();
 		Display::Instance()->AddDisplayObject("test", obj);
 
-		obj = new GameMenu();
-		Display::Instance()->AddDisplayObject("text", obj);
+		GameMenu* menu = new GameMenu();
+		menu->SaveFileExists(saveManager_->CheckSaveData());
+		Display::Instance()->AddDisplayObject("text", menu);
 
 		obj = new PauseMenu();
 		Display::Instance()->AddDisplayObject("text", obj);
@@ -75,9 +76,6 @@ void Game::Init()
 		saveManager_->RegisterEntity(p);
 
 		Display::Instance()->Init();
-
-		// DEBUG
-		//saveManager_->Load();
 	}
 	catch (Exception& e)
 	{
@@ -91,9 +89,16 @@ void Game::Exit()
 	std::cout << "Game::Exit()" << std::endl;
 }
 
+void Game::New()
+{
+	std::cout << "Game::New()" << std::endl;
+	Display::Instance()->InitObjects();
+}
+
 void Game::Load()
 {
 	std::cout << "Game::Load()" << std::endl;
+	saveManager_->Load();
 }
 
 void Game::Save()

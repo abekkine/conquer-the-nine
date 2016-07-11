@@ -9,6 +9,7 @@
 
 GameMenu::GameMenu()
 {
+	saveFileExists_ = false;
 }
 
 GameMenu::~GameMenu()
@@ -23,6 +24,11 @@ bool GameMenu::StateMismatch()
 		return false;
 	else
 		return true;
+}
+
+void GameMenu::SaveFileExists(bool value)
+{
+	saveFileExists_ = value;
 }
 
 void GameMenu::KeyEvent(int key, int scancode, int action, int mods)
@@ -80,7 +86,7 @@ void GameMenu::Init()
 
 	menuItems_.push_back({ std::string("New Game"), left, y, false, GameState::gsINITGAME });
 	y -= step;
-	menuItems_.push_back({ std::string("Continue"), left, y, true, GameState::gsLOADGAME });
+	menuItems_.push_back({ std::string("Continue"), left, y, !saveFileExists_, GameState::gsLOADGAME });
 	y -= step;
 	menuItems_.push_back({ std::string("Settings"), left, y, false, GameState::gsSETTINGS });
 	y -= step;

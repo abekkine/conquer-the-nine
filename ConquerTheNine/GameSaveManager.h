@@ -15,6 +15,7 @@ public:
 	GameSaveManager(std::string savefile);
 	~GameSaveManager();
 	void RegisterEntity(SaveableInterface* entity);
+	bool CheckSaveData();
 	void Load();
 	void Save();
 };

@@ -20,12 +20,14 @@ private:
 	typedef std::vector<MenuItemType> MenuContainerType;
 	MenuContainerType menuItems_;
 	MenuContainerType::iterator selected_;
+	bool saveFileExists_;
 
 public:
 	GameMenu();
 	~GameMenu();
 	
 	bool StateMismatch();
+	void SaveFileExists(bool value);
 	virtual void KeyEvent(int key, int scancode, int action, int mods);
 	virtual void MouseButtonEvent(int button, int action, int mods) {}
 	virtual void CursorPositionEvent(double x, double y) {}

@@ -1,5 +1,7 @@
 #include "GameSaveManager.h"
 
+#include <sys/stat.h>
+
 #include <iostream>
 #include <exception>
 
@@ -18,6 +20,17 @@ void GameSaveManager::RegisterEntity(SaveableInterface* entity)
 {
 	std::cout << "GameSaveManager::RegisterEntity()" << std::endl;
 	saveables_.push_back(entity);
+}
+
+bool GameSaveManager::CheckSaveData()
+{
+	bool fileExists = false;
+	struct stat s;
+	if (stat(saveFile_.c_str(), &s) != -1)
+	{
+		fileExists = true;
+	}
+	return fileExists;
 }
 
 void GameSaveManager::Load()

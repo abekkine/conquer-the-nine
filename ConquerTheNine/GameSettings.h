@@ -13,6 +13,7 @@ private:
 	typedef std::vector<std::string> ValueListType;
 	struct SettingItem {
 		std::string label;
+		std::string name;
 		ValueListType::iterator value;
 		ValueListType valueList;
 		int x, y;
@@ -22,6 +23,8 @@ private:
 	typedef std::vector<SettingItem*> SettingContainerType;
 	SettingContainerType settingItems_;
 	SettingContainerType::iterator selected_;
+	const std::string configFile_;
+	bool loaded_;
 
 public:
 	GameSettings();
@@ -33,6 +36,8 @@ public:
 	virtual void CursorPositionEvent(double x, double y) {}
 	virtual void Render();
 	virtual void Init();
+	void Load();
+	void Save();
 
 private:
 	void SelectNextCircular();

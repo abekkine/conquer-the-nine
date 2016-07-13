@@ -64,8 +64,8 @@ void Game::Init()
 		obj = new PauseMenu();
 		Display::Instance()->AddDisplayObject("text", obj);
 
-		obj = new GameSettings();
-		Display::Instance()->AddDisplayObject("text", obj);
+		settings_ = new GameSettings();
+		Display::Instance()->AddDisplayObject("text", settings_);
 
 		obj = new Universe();
 		Display::Instance()->AddDisplayObject("game", obj);
@@ -105,6 +105,11 @@ void Game::Save()
 {
 	std::cout << "Game::Save()" << std::endl;
 	saveManager_->Save();
+}
+
+void Game::SaveSettings()
+{
+	settings_->Save();
 }
 
 void Game::Run()

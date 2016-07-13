@@ -2,11 +2,13 @@
 #define GAME_H_
 
 #include "GameSaveManager.h"
+#include "GameSettings.h"
 
 class Game
 {
 private:
 	GameSaveManager* saveManager_;
+	GameSettings* settings_;
 public:
 	Game();
 	virtual ~Game();
@@ -16,6 +18,7 @@ public:
 	void New();
 	void Load();
 	void Save();
+	void SaveSettings();
 };
 
 #endif // GAME_H_

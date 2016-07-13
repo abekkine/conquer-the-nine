@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Game.h"
+class Game;
 
 class GameState
 {

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "Game.h"
+
 GameState* GameState::instance_ = 0;
 
 GameState::GameState()
@@ -68,6 +70,8 @@ void GameState::PostProcess()
 	case gsPAUSE:
 		break;
 	case gsSAVESETTINGS:
+		game_->SaveSettings();
+		State(gsSETTINGS);
 		break;
 	}
 }

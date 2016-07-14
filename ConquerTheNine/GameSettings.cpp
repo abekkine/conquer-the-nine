@@ -4,9 +4,7 @@
 
 #include <iostream>
 #include <fstream>
-
-#include "rapidjson/prettywriter.h"
-#include "rapidjson/stringbuffer.h"
+#include <algorithm>
 
 #include "GameState.h"
 #include "TextManager.h"
@@ -15,7 +13,7 @@
 GameSettings::GameSettings()
 	: configFile_("ct9.json")
 {
-	loaded_ = false;
+	loaded_ = Load();
 }
 
 
@@ -88,6 +86,28 @@ void GameSettings::Render()
 	}
 }
 
+void GameSettings::LoadItemValue(SettingItem* s)
+{
+	if (!loaded_)
+	{
+		s->value = s->valueList.begin();
+		jSave_[s->name] = s->valueList[0];
+	}
+	else
+	{
+		ValueListType::iterator it;
+		it = std::find(s->valueList.begin(), s->valueList.end(), jLoad_[s->name]);
+		if (it != s->valueList.end())
+		{
+			s->value = it;
+		}
+		else
+		{
+			s->value = s->valueList.begin();
+		}
+	}
+}
+
 void GameSettings::Init()
 {
 	const int left = 100;
@@ -95,90 +115,89 @@ void GameSettings::Init()
 	int y = 700;
 	SettingItem* s;
 
+	// Window Size
+	s = new SettingItem();
+	s->label = "Window Size";
+	s->name = "wsize";
+	s->valueList = ValueListType();
+	s->valueList.push_back("500");
+	s->valueList.push_back("640");
+	s->valueList.push_back("800");
+	s->valueList.push_back("960");
+	s->x = left; s->y = y;
+	s->targetState = GameState::gsSETTINGS;
+	LoadItemValue(s);
+	settingItems_.push_back(s);
+
+
+	// Full Screen
+	y -= step;
+	s = new SettingItem();
+	s->label = "Fullscreen";
+	s->name = "fscreen";
+	s->valueList = ValueListType();
+	s->valueList.push_back("On");
+	s->valueList.push_back("Off");
+	s->value = std::next(s->valueList.begin());
+	s->x = left; s->y = y;
+	s->targetState = GameState::gsSETTINGS;
+	LoadItemValue(s);
+	settingItems_.push_back(s);
+
+	// Save 'Button'
+	y -= step;
+	s = new SettingItem();
+	s->label = "Save";
+	s->valueList = ValueListType();
+	s->value = s->valueList.end();
+	s->x = left; s->y = y;
+	s->targetState = GameState::gsSAVESETTINGS;
+	settingItems_.push_back(s);
+
+	// Back 'Button'
+	y -= step;
+	s = new SettingItem();
+	s->label = "Back";
+	s->valueList = ValueListType();
+	s->value = s->valueList.end();
+	s->x = left; s->y = y;
+	s->targetState = GameState::gsMENU;
+	settingItems_.push_back(s);
+
+	// TODO : No settings file, write while initiating...
 	if (!loaded_)
 	{
-		// TODO : No settings file, write while initiating...
 		std::fstream configFile(configFile_, std::fstream::out | std::fstream::trunc);
-		rapidjson::StringBuffer sb;
-		rapidjson::PrettyWriter<rapidjson::StringBuffer> w(sb);
-		w.StartObject();
-		// Window Size
-		s = new SettingItem();
-		s->label = "Window Size";
-		s->name = "wsize";
-		s->valueList = ValueListType();
-		s->valueList.push_back("500");
-		s->valueList.push_back("640");
-		s->valueList.push_back("800");
-		s->valueList.push_back("960");
-		s->value = s->valueList.begin();
-		s->x = left; s->y = y;
-		s->targetState = GameState::gsSETTINGS;
-		settingItems_.push_back(s);
-
-		w.Key(s->name.c_str());
-		w.String(s->valueList[0].c_str());
-
-		// Full Screen
-		y -= step;
-		s = new SettingItem();
-		s->label = "Fullscreen";
-		s->name = "fscreen";
-		s->valueList = ValueListType();
-		s->valueList.push_back("On");
-		s->valueList.push_back("Off");
-		s->value = std::next(s->valueList.begin());
-		s->x = left; s->y = y;
-		s->targetState = GameState::gsSETTINGS;
-		settingItems_.push_back(s);
-
-		w.Key(s->name.c_str());
-		w.String(s->valueList[0].c_str());
-
-		// Save 'Button'
-		y -= step;
-		s = new SettingItem();
-		s->label = "Save";
-		s->valueList = ValueListType();
-		s->value = s->valueList.end();
-		s->x = left; s->y = y;
-		s->targetState = GameState::gsSAVESETTINGS;
-		settingItems_.push_back(s);
-
-		// Back 'Button'
-		y -= step;
-		s = new SettingItem();
-		s->label = "Back";
-		s->valueList = ValueListType();
-		s->value = s->valueList.end();
-		s->x = left; s->y = y;
-		s->targetState = GameState::gsMENU;
-		settingItems_.push_back(s);
-
-		// Close JSON object
-		w.EndObject();
-		std::cout << sb.GetString() << std::endl;
-		configFile << sb.GetString();
+		configFile << jSave_.dump(4);
 		configFile.close();
-	}
-	else
-	{
-		// TODO : build page from loaded values.
 	}
 
 	selected_ = settingItems_.begin();
 }
 
-void GameSettings::Load()
+bool GameSettings::Load()
 {
+	bool success = false;
+	try
+	{
+		std::fstream configFile(configFile_, std::fstream::in);
+		configFile >> jLoad_;
+		std::cout << jLoad_["wsize"] << std::endl;
+		std::cout << jLoad_["fscreen"] << std::endl;
+		configFile.close();
+		success = true;
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+	return success;
 }
 
 void GameSettings::Save()
 {
 	std::fstream configFile(configFile_, std::fstream::out | std::fstream::trunc);
-	rapidjson::StringBuffer sb;
-	rapidjson::PrettyWriter<rapidjson::StringBuffer> w(sb);
-	w.StartObject();
+	jSave_.clear();
 	for (auto i = settingItems_.begin(); i != settingItems_.end(); ++i)
 	{
 		std::string key = (*i)->name;
@@ -186,13 +205,10 @@ void GameSettings::Save()
 		{
 			ValueListType::iterator vit = (*i)->value;
 			std::string value = *vit;
-			w.Key(key.c_str());
-			w.String(value.c_str());
+			jSave_[key] = value;
 		}
 	}
-	w.EndObject();
-	std::cout << sb.GetString() << std::endl;
-	configFile << sb.GetString();
+	configFile << jSave_.dump(4);
 	configFile.close();
 }
 

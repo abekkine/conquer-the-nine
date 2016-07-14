@@ -175,6 +175,7 @@
     <ClInclude Include="GameSaveManager.h" />
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SaveableInterface.h" />
@@ -189,7 +190,6 @@
     <Import Project="..\packages\glfw.3.2\build\native\glfw.targets" Condition="Exists('..\packages\glfw.3.2\build\native\glfw.targets')" />
     <Import Project="..\packages\Microsoft.Gsl.0.1.2.1\build\native\Microsoft.Gsl.targets" Condition="Exists('..\packages\Microsoft.Gsl.0.1.2.1\build\native\Microsoft.Gsl.targets')" />
     <Import Project="..\packages\Microsoft.CppCoreCheck.14.0.23917.2\build\native\Microsoft.CppCoreCheck.targets" Condition="Exists('..\packages\Microsoft.CppCoreCheck.14.0.23917.2\build\native\Microsoft.CppCoreCheck.targets')" />
-    <Import Project="..\packages\rapidjson.1.0.2\build\native\rapidjson.targets" Condition="Exists('..\packages\rapidjson.1.0.2\build\native\rapidjson.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -200,6 +200,5 @@
     <Error Condition="!Exists('..\packages\Microsoft.Gsl.0.1.2.1\build\native\Microsoft.Gsl.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Gsl.0.1.2.1\build\native\Microsoft.Gsl.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CppCoreCheck.14.0.23917.2\build\native\Microsoft.CppCoreCheck.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CppCoreCheck.14.0.23917.2\build\native\Microsoft.CppCoreCheck.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CppCoreCheck.14.0.23917.2\build\native\Microsoft.CppCoreCheck.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CppCoreCheck.14.0.23917.2\build\native\Microsoft.CppCoreCheck.targets'))" />
-    <Error Condition="!Exists('..\packages\rapidjson.1.0.2\build\native\rapidjson.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\rapidjson.1.0.2\build\native\rapidjson.targets'))" />
   </Target>
 </Project>

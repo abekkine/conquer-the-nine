@@ -4,6 +4,10 @@
 #include <string>
 #include <vector>
 
+// UPDATE:json
+#include "json.hpp"
+using json = nlohmann::json;
+
 #include "DisplayObjectInterface.h"
 #include "GameState.h"
 
@@ -25,6 +29,8 @@ private:
 	SettingContainerType::iterator selected_;
 	const std::string configFile_;
 	bool loaded_;
+	json jSave_;
+	json jLoad_;
 
 public:
 	GameSettings();
@@ -36,10 +42,11 @@ public:
 	virtual void CursorPositionEvent(double x, double y) {}
 	virtual void Render();
 	virtual void Init();
-	void Load();
+	bool Load();
 	void Save();
 
 private:
+	void LoadItemValue(SettingItem* s);
 	void SelectNextCircular();
 	void SelectPrevCircular();
 	void NextSettingItem();

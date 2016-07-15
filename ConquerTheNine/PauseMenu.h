@@ -19,20 +19,22 @@ private:
 
 	typedef std::vector<MenuItemType> MenuContainerType;
 	MenuContainerType menuItems_;
+	MenuContainerType::iterator resumeMenuItem_;
 	MenuContainerType::iterator selected_;
-
+	unsigned char flagPauseState_;
 public:
 	PauseMenu();
 	~PauseMenu();
 
 	bool StateMismatch();
-	virtual void KeyEvent(int key, int scancode, int action, int mods);
+	virtual bool KeyEvent(int key, int scancode, int action, int mods);
 	virtual void MouseButtonEvent(int button, int action, int mods) {}
 	virtual void CursorPositionEvent(double x, double y) {}
 	virtual void Render();
 	virtual void Init();
 
 private:
+	bool CanDispatch();
 	void SelectNextCircular();
 	void SelectPrevCircular();
 	void NextMenuItem();

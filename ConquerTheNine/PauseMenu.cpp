@@ -22,15 +22,27 @@ bool PauseMenu::StateMismatch()
 		return true;
 }
 
-void PauseMenu::KeyEvent(int key, int scancode, int action, int mods)
+bool PauseMenu::CanDispatch()
 {
+	return GameState::gsPAUSE == GameState::Instance()->State();
+}
+
+bool PauseMenu::KeyEvent(int key, int scancode, int action, int mods)
+{
+	bool dispatch = false;
+
 	if (StateMismatch())
-		return;
+		return dispatch;
 
 	if (action == GLFW_PRESS)
 	{
 		switch (key)
 		{
+		case GLFW_KEY_ESCAPE:
+			selected_ = resumeMenuItem_;
+			dispatch = CanDispatch();
+			SelectMenuItem();
+			break;
 		case GLFW_KEY_UP:
 			PrevMenuItem(); break;
 		case GLFW_KEY_DOWN:
@@ -40,6 +52,8 @@ void PauseMenu::KeyEvent(int key, int scancode, int action, int mods)
 			SelectMenuItem(); break;
 		}
 	}
+
+	return dispatch;
 }
 
 void PauseMenu::RenderFrame()
@@ -111,6 +125,8 @@ void PauseMenu::Init()
 	menuItems_.push_back({ std::string("Save & Quit"), left, y, false, GameState::gsSAVEGAME });
 
 	selected_ = menuItems_.begin();
+	resumeMenuItem_ = selected_;
+	flagPauseState_ = 0;
 }
 
 void PauseMenu::SelectNextCircular()

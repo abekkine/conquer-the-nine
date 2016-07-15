@@ -32,10 +32,12 @@ bool GameSettings::StateMismatch()
 		return true;
 }
 
-void GameSettings::KeyEvent(int key, int scancode, int action, int mods)
+bool GameSettings::KeyEvent(int key, int scancode, int action, int mods)
 {
+	bool dispatch = false;
+
 	if (StateMismatch())
-		return;
+		return dispatch;
 
 	if (action == GLFW_PRESS)
 	{
@@ -53,6 +55,8 @@ void GameSettings::KeyEvent(int key, int scancode, int action, int mods)
 			SelectSettingItem(); break;
 		}
 	}
+
+	return dispatch;
 }
 
 void GameSettings::Render()

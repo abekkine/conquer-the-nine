@@ -74,20 +74,17 @@ void Display::ResizeHandler(GLFWwindow* w, int width, int height)
 
 void Display::KeyHandler(GLFWwindow* w, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	bool dispatch = false;
+	LayerContainerType::const_iterator i;
+	ObjContainerType::const_iterator j;
+	for (i = layers_.begin(); i != layers_.end(); ++i)
 	{
-		GameState::Instance()->State(GameState::gsMENU);
-	}
-	else {
-		LayerContainerType::const_iterator i;
-		ObjContainerType::const_iterator j;
-		for (i = layers_.begin(); i != layers_.end(); ++i)
+		for (j = (i->second).objects.begin(); j != (i->second).objects.end(); ++j)
 		{
-			for (j = (i->second).objects.begin(); j != (i->second).objects.end(); ++j)
-			{
-				(*j)->KeyEvent(key, scancode, action, mods);
-			}
+			dispatch = (*j)->KeyEvent(key, scancode, action, mods);
+			if (dispatch) break;
 		}
+		if (dispatch) break;
 	}
 }
 

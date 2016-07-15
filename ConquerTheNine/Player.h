@@ -26,12 +26,13 @@ public:
 	Player();
 	~Player();
 
-	virtual void KeyEvent(int key, int scancode, int action, int mods);
+	virtual bool KeyEvent(int key, int scancode, int action, int mods);
 	virtual void MouseButtonEvent(int button, int action, int mods) {}
 	virtual void CursorPositionEvent(double x, double y) {}
 	virtual void Render();
 	virtual void Init();
 	virtual bool StateMismatch();
+	bool CanDispatch();
 	void RegisterViewport(Display::Viewport* vp);
 	bool IsPaused();
 	// Saveable interface

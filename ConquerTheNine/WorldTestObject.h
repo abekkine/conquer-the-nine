@@ -11,7 +11,7 @@ public:
 	WorldTestObject();
 	~WorldTestObject();
 
-	virtual void KeyEvent(int key, int scancode, int action, int mods) {}
+	virtual bool KeyEvent(int key, int scancode, int action, int mods) { return false; }
 	virtual void MouseButtonEvent(int button, int action, int mods) {}
 	virtual void CursorPositionEvent(double x, double y) {}
 	virtual void Render();

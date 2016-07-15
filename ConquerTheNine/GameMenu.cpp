@@ -31,10 +31,12 @@ void GameMenu::SaveFileExists(bool value)
 	saveFileExists_ = value;
 }
 
-void GameMenu::KeyEvent(int key, int scancode, int action, int mods)
+bool GameMenu::KeyEvent(int key, int scancode, int action, int mods)
 {
+	bool dispatch = false;
+
 	if (StateMismatch())
-		return;
+		return dispatch;
 
 	if (action == GLFW_PRESS)
 	{
@@ -49,6 +51,8 @@ void GameMenu::KeyEvent(int key, int scancode, int action, int mods)
 			SelectMenuItem(); break;
 		}
 	}
+
+	return dispatch;
 }
 
 void GameMenu::Render()

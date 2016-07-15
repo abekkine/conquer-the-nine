@@ -23,19 +23,25 @@ bool HelpPanel::StateMismatch()
 		return true;
 }
 
-void HelpPanel::KeyEvent(int key, int scancode, int action, int mods)
+bool HelpPanel::KeyEvent(int key, int scancode, int action, int mods)
 {
+	bool dispatch = false;
+
 	if (StateMismatch())
-		return;
+		return dispatch;
 
 	if (action == GLFW_PRESS)
 	{
 		switch (key)
 		{
+		case GLFW_KEY_ESCAPE:
+			flagShowHelp_ = 0; break;
 		case GLFW_KEY_H:
 			flagShowHelp_ ^= 1; break;
 		}
 	}
+
+	return dispatch;
 }
 
 void HelpPanel::Render()

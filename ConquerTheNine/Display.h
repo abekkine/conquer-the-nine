@@ -12,13 +12,28 @@
 class Display
 {
 public:
+	enum ViewportType {
+		vtTopLeftOrigin,
+		vtBottomLeftOrigin,
+		vtCenterOrigin
+	};
 	struct Viewport {
+		ViewportType type;
+		double unitsPerPixel;
+		double cx, cy;
 		double left, right, bottom, top;
-		Viewport() { left = bottom = -1.0; right = top = 1.0; }
+		Viewport() { 
+			type = vtBottomLeftOrigin;
+			unitsPerPixel = 1.0;
+			cx = cy = 0.0; 
+			left = bottom = -1.0; right = top = 1.0;
+		}
 	};
 private:
 	static Display* instance_;
 	GLFWwindow* window_;
+	int scrWidth_;
+	int scrHeight_;
 	typedef	std::vector<DisplayObjectInterface*> ObjContainerType;
 	struct LayerObject {
 		Viewport viewport;
@@ -26,6 +41,9 @@ private:
 	};
 	typedef std::map<std::string, LayerObject> LayerContainerType;
 	LayerContainerType layers_;
+	bool fullScreen_;
+	int reqWidth_;
+	int reqHeight_;
 
 private:
 	Display();
@@ -49,6 +67,10 @@ public:
 
 	Viewport* AddLayerViewport(std::string layer, Viewport viewport);
 	void AddDisplayObject(std::string layer, DisplayObjectInterface* obj);
+
+	void FullScreen(bool value);
+	void WindowSize(int w, int h);
+
 	void Init();
 	void InitObjects();
 	void Run();

@@ -69,7 +69,9 @@ void Display::ErrorHandler(int error, std::string description)
 void Display::ResizeHandler(GLFWwindow* w, int width, int height)
 {
 	std::cout << "Display::ResizeHandler()" << std::endl;
-	glViewport(0, 0, width, height);
+	scrWidth_ = width;
+	scrHeight_ = height;
+	glViewport(0, 0, scrWidth_, scrHeight_);
 }
 
 void Display::KeyHandler(GLFWwindow* w, int key, int scancode, int action, int mods)
@@ -181,6 +183,17 @@ void Display::Init()
 	InitObjects();
 }
 
+void Display::FullScreen(bool value)
+{
+	fullScreen_ = value;
+}
+
+void Display::WindowSize(int w, int h)
+{
+	reqWidth_ = w;
+	reqHeight_ = h;
+}
+
 void Display::InitDisplay()
 {
 	std::cout << "Display::InitDisplay()" << std::endl;
@@ -193,9 +206,33 @@ void Display::InitDisplay()
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-	// TODO : Window properties should be given by derived game class.
-	window_ = glfwCreateWindow(800, 800, "Ct9", NULL, NULL);
+	// DEBUG : Windowed
+	scrWidth_ = reqWidth_;
+	scrHeight_ = reqHeight_;
+	if (fullScreen_)
+	{
+		// True full screen
+		window_ = glfwCreateWindow(scrWidth_, scrHeight_, "Ct9", glfwGetPrimaryMonitor(), NULL);
+		// NOTE : Windowed full screen; which is faster, but based on desktop resolution.
+		//{
+		//	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+		//	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+		//	glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+		//	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+		//	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+		//	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+		//  scrWidth_ = mode->width;
+		//  scrHeight_ = mode->height;
+		//	window_ = glfwCreateWindow(scrWidth_, scrHeight_, "Ct9", monitor, NULL);
+		//}
+	}
+	else
+	{
+		window_ = glfwCreateWindow(scrWidth_, scrHeight_, "Ct9", NULL, NULL);
+	}
+
 	if (!window_)
 	{
 		glfwTerminate();
@@ -217,9 +254,36 @@ void Display::InitDisplay()
 
 void Display::UpdateViewport(Viewport& vp)
 {
+	// Calculate viewport
+	double realWidth = scrWidth_ * vp.unitsPerPixel;
+	double realHeight = scrHeight_ * vp.unitsPerPixel;
+	double vpLeft, vpRight, vpTop, vpBottom;
+
+	if (vp.type == vtCenterOrigin)
+	{
+		vpLeft = vp.cx - 0.5 * realWidth;
+		vpRight = vp.cx + 0.5 * realWidth;
+		vpTop = vp.cy + 0.5 * realHeight;
+		vpBottom = vp.cy - 0.5 * realHeight;
+	}
+	else if (vp.type == vtBottomLeftOrigin)
+	{
+		vpLeft = vp.cx;
+		vpBottom = vp.cy;
+		vpRight = vp.cx + realWidth;
+		vpTop = vp.cy + realHeight;
+	}
+	else // if (vp.type == vtTopLeftOrigin)
+	{
+		vpLeft = vp.cx;
+		vpTop = vp.cy;
+		vpRight = vp.cx + realWidth;
+		vpBottom = vp.cy + realHeight;
+	}
+	// End
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(vp.left, vp.right, vp.bottom, vp.top, -1.0, 1.0);
+	glOrtho(vpLeft, vpRight, vpBottom, vpTop, -1.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 }
 

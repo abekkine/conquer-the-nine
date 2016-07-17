@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <algorithm>
 
 #include "GameState.h"
@@ -124,10 +125,15 @@ void GameSettings::Init()
 	s->label = "Window Size";
 	s->name = "wsize";
 	s->valueList = ValueListType();
-	s->valueList.push_back("500");
-	s->valueList.push_back("640");
-	s->valueList.push_back("800");
-	s->valueList.push_back("960");
+	s->valueList.push_back("1024x768");
+	s->valueList.push_back("1280x768");
+	s->valueList.push_back("1280x800");
+	s->valueList.push_back("1280x1024");
+	s->valueList.push_back("1366x768");
+	s->valueList.push_back("1440x900");
+	s->valueList.push_back("1600x900");
+	s->valueList.push_back("1680x1050");
+	s->valueList.push_back("1920x1080");
 	s->x = left; s->y = y;
 	s->targetState = GameState::gsSETTINGS;
 	LoadItemValue(s);
@@ -168,7 +174,7 @@ void GameSettings::Init()
 	s->targetState = GameState::gsMENU;
 	settingItems_.push_back(s);
 
-	// TODO : No settings file, write while initiating...
+	// No settings file, write while initiating...
 	if (!loaded_)
 	{
 		std::fstream configFile(configFile_, std::fstream::out | std::fstream::trunc);
@@ -286,4 +292,30 @@ void GameSettings::PrevSettingValue()
 			s->value = std::prev(s->value);
 		}
 	}
+}
+
+void GameSettings::GetWindowSize(int& width, int& height)
+{
+	std::string windowSize = jLoad_["wsize"];
+	std::istringstream ws (windowSize);
+	std::string s;
+
+	std::getline(ws, s, 'x');
+	width = std::stoi(s, nullptr, 0);
+
+	std::getline(ws, s, 'x');
+	height = std::stoi(s, nullptr, 0);
+}
+
+bool GameSettings::GetFullscreenFlag()
+{
+	bool fs = false;
+	std::string fullScreen = jLoad_["fscreen"];
+
+	if (fullScreen == "On")
+	{
+		fs = true;
+	}
+
+	return fs;
 }

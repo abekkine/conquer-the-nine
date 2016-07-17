@@ -39,17 +39,16 @@ void Game::Init()
 
 		Display::Viewport v;
 
-		v.left = v.bottom = 0.0;
-		v.right = v.top = 800.0;
+		// With default values (for now).
 		Display::Instance()->AddLayerViewport("text", v);
 
 		Display::Viewport* vp;
-		v.left = v.bottom = -50.0;
-		v.right = v.top = 50.0;
+		v.unitsPerPixel = 0.125;
+		v.type = Display::vtCenterOrigin;
 		vp = Display::Instance()->AddLayerViewport("game", v);
 
-		v.left = v.bottom = -2.0;
-		v.right = v.top = 2.0;
+		v.unitsPerPixel = 0.005;
+		v.type = Display::vtCenterOrigin;
 		Display::Instance()->AddLayerViewport("test", v);
 
 		obj = new ScreenTestObject();
@@ -79,6 +78,11 @@ void Game::Init()
 		Display::Instance()->AddDisplayObject("game", p);
 		saveManager_->RegisterEntity(p);
 
+		bool fsFlag = settings_->GetFullscreenFlag();
+		int w, h;
+		settings_->GetWindowSize(w, h);
+		Display::Instance()->FullScreen(fsFlag);
+		Display::Instance()->WindowSize(w, h);
 		Display::Instance()->Init();
 	}
 	catch (Exception& e)

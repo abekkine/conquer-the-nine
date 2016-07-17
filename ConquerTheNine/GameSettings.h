@@ -44,6 +44,8 @@ public:
 	virtual void Init();
 	bool Load();
 	void Save();
+	void GetWindowSize(int& width, int& height);
+	bool GetFullscreenFlag();
 
 private:
 	void LoadItemValue(SettingItem* s);

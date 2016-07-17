@@ -88,10 +88,8 @@ void Player::Render()
 	y_ += vy_;
 
 	// Update viewport;
-	viewport_->left = x_ - vpHalfWidth_;
-	viewport_->right = x_ + vpHalfWidth_;
-	viewport_->top = y_ + vpHalfHeight_;
-	viewport_->bottom = y_ - vpHalfHeight_;
+	viewport_->cx = x_;
+	viewport_->cy = y_;
 
 	double s = 2.5;
 

@@ -11,3 +11,6 @@ ct9
 
 # General
 *.dat
+version.h
+version.info
+*.json

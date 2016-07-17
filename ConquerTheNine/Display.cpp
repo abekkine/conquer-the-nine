@@ -6,6 +6,8 @@
 #include "TextManager.h"
 #include "GameState.h"
 
+#include "version.h"
+
 Display* Display::instance_ = 0;
 
 Display::Display()
@@ -312,12 +314,17 @@ void Display::RenderState()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0, 800, 0, 800, -1.0, 1.0);
+	glOrtho(0, scrWidth_, 0, scrHeight_, -1.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
-	TextManager::Instance()->UseFont("", 20);
+	TextManager::Instance()->UseFont("ubuntu", 20);
 	glColor3f(1.0f, 0.0f, 0.0f);
-	glRasterPos2i(20, 20);
+	glRasterPos2i(10, 30);
 	TextManager::Instance()->Render(GameState::Instance()->StateName());
+
+	TextManager::Instance()->UseFont("ubuntu", 14);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glRasterPos2i(10, 10);
+	TextManager::Instance()->Render(VERSION_STR);
 }
 
 void Display::Run()

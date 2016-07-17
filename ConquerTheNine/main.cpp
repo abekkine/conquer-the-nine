@@ -3,9 +3,12 @@
 #include "Exception.h"
 #include "ConquerTheNine.h"
 
+#include "version.h"
+
 int main(void)
 {
 	std::cout << "Conquer The Nine!" << std::endl;
+	std::cout << "Rev:" << VERSION_STR << std::endl;
 	ConquerTheNine* game = new ConquerTheNine();
 
 	try {

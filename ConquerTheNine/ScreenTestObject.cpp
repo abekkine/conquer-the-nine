@@ -59,16 +59,20 @@ void ScreenTestObject::Render()
 	if (StateMismatch())
 		return;
 
+	int left = 100;
+	int top = 100;
+	int step = 50;
+
 	glColor3f(1.0f, 1.0f, 1.0f);
-	glRasterPos2i(300, 50);
+	glRasterPos2i(left, top += step);
 	TextManager::Instance()->UseFont("anonym", 20);
 	TextManager::Instance()->Render("Anonymous Pro, 20");
 
-	glRasterPos2i(300, 100);
+	glRasterPos2i(left, top += step);
 	TextManager::Instance()->UseFont("droid", 30);
 	TextManager::Instance()->Render("Droid Sans Mono, 30");
 
-	glRasterPos2i(300, 150);
+	glRasterPos2i(left, top += step);
 	TextManager::Instance()->UseFont("ubuntu", 40);
 	TextManager::Instance()->Render("Ubuntu Mono, 40");
 }

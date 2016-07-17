@@ -40,6 +40,7 @@ void Game::Init()
 		Display::Viewport v;
 
 		// With default values (for now).
+		v.type = Display::vtTopLeftOrigin;
 		Display::Instance()->AddLayerViewport("text", v);
 
 		Display::Viewport* vp;

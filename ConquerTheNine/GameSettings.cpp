@@ -117,7 +117,7 @@ void GameSettings::Init(int w, int h)
 {
 	const int left = 100;
 	const int step = 50;
-	int y = 700;
+	int top = 100;
 	SettingItem* s;
 
 	// Window Size
@@ -134,14 +134,14 @@ void GameSettings::Init(int w, int h)
 	s->valueList.push_back("1600x900");
 	s->valueList.push_back("1680x1050");
 	s->valueList.push_back("1920x1080");
-	s->x = left; s->y = y;
+	s->x = left; s->y = top;
 	s->targetState = GameState::gsSETTINGS;
 	LoadItemValue(s);
 	settingItems_.push_back(s);
 
 
 	// Full Screen
-	y -= step;
+	top += step;
 	s = new SettingItem();
 	s->label = "Fullscreen";
 	s->name = "fscreen";
@@ -149,28 +149,28 @@ void GameSettings::Init(int w, int h)
 	s->valueList.push_back("On");
 	s->valueList.push_back("Off");
 	s->value = std::next(s->valueList.begin());
-	s->x = left; s->y = y;
+	s->x = left; s->y = top;
 	s->targetState = GameState::gsSETTINGS;
 	LoadItemValue(s);
 	settingItems_.push_back(s);
 
 	// Save 'Button'
-	y -= step;
+	top += step;
 	s = new SettingItem();
 	s->label = "Save";
 	s->valueList = ValueListType();
 	s->value = s->valueList.end();
-	s->x = left; s->y = y;
+	s->x = left; s->y = top;
 	s->targetState = GameState::gsSAVESETTINGS;
 	settingItems_.push_back(s);
 
 	// Back 'Button'
-	y -= step;
+	top += step;
 	s = new SettingItem();
 	s->label = "Back";
 	s->valueList = ValueListType();
 	s->value = s->valueList.end();
-	s->x = left; s->y = y;
+	s->x = left; s->y = top;
 	s->targetState = GameState::gsMENU;
 	settingItems_.push_back(s);
 

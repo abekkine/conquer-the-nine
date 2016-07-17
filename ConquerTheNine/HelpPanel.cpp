@@ -59,8 +59,8 @@ void HelpPanel::Render()
 void HelpPanel::Init(int w, int h)
 {
 	flagShowHelp_ = true;
-	x_ = 200; y_ = 150;
 	w_ = 350; h_ = 130;
+	x_ = w - w_ - 50; y_ = h - h_ - 50;
 }
 
 void HelpPanel::FrameVertices()
@@ -87,27 +87,28 @@ void HelpPanel::RenderFrame()
 void HelpPanel::RenderHelpItems()
 {
 	int m = 20;
-	int cy = 0;
+	int cy = 10;
 	TextManager::Instance()->UseFont("ubuntu", 16);
 	glColor3f(1.0, 1.0, 1.0);
 
-	glRasterPos2i(x_ + m,  y_ + m + cy);
-	TextManager::Instance()->Render("Use cursor keys to move player.");
-
-	cy += 20;
-	glRasterPos2i(x_ + m, y_ + m + cy);
-	TextManager::Instance()->Render("Press 'p' to pause");
-
-	cy += 20;
-	glRasterPos2i(x_ + m, y_ + m + cy);
-	TextManager::Instance()->Render("Press 'h' for this panel");
-
-	cy += 20;
-	glRasterPos2i(x_ + m, y_ + m + cy);
-	TextManager::Instance()->Render("-------------------------------");
-
-	cy += 20;
 	glRasterPos2i(x_ + m, y_ + m + cy);
 	TextManager::Instance()->Render("Help");
+	cy += m;
+
+	glRasterPos2i(x_ + m, y_ + m + cy);
+	TextManager::Instance()->Render("-------------------------------");
+	cy += m;
+
+	glRasterPos2i(x_ + m, y_ + m + cy);
+	TextManager::Instance()->Render("Press 'h' for this panel");
+	cy += m;
+
+	glRasterPos2i(x_ + m, y_ + m + cy);
+	TextManager::Instance()->Render("Press 'p' to pause");
+	cy += m;
+
+	glRasterPos2i(x_ + m,  y_ + m + cy);
+	TextManager::Instance()->Render("Use cursor keys to move player.");
+	cy += m;
 }
 

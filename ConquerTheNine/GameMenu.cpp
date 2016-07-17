@@ -86,16 +86,16 @@ void GameMenu::Init(int w, int h)
 {
 	const int left = 100;
 	const int step = 50;
-	int y = 700;
+	int y = 100;
 
 	menuItems_.push_back({ std::string("New Game"), left, y, false, GameState::gsINITGAME });
-	y -= step;
+	y += step;
 	menuItems_.push_back({ std::string("Continue"), left, y, !saveFileExists_, GameState::gsLOADGAME });
-	y -= step;
+	y += step;
 	menuItems_.push_back({ std::string("Settings"), left, y, false, GameState::gsSETTINGS });
-	y -= step;
+	y += step;
 	menuItems_.push_back({ std::string("Test"), left, y, false, GameState::gsTEST });
-	y -= step;
+	y += step;
 	menuItems_.push_back({ std::string("Quit"), left, y, false, GameState::gsQUIT });
 
 	selected_ = menuItems_.begin();

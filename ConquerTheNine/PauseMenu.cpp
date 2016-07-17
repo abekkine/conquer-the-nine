@@ -56,29 +56,25 @@ bool PauseMenu::KeyEvent(int key, int scancode, int action, int mods)
 	return dispatch;
 }
 
+void PauseMenu::FrameVertices()
+{
+	glVertex2i(x_, y_);
+	glVertex2i(x_ + width_, y_);
+	glVertex2i(x_ + width_, y_ + height_);
+	glVertex2i(x_, y_ + height_);
+}
+
 void PauseMenu::RenderFrame()
 {
-	int x, y, w, h;
-
-	x = 140; y = 420;
-	w = 320; h = 130;
-
 	glColor4f(0.2, 0.2, 0.8, 0.8);
 	glBegin(GL_QUADS);
-	glVertex2i(x, y);
-	glVertex2i(x + w, y);
-	glVertex2i(x + w, y + h);
-	glVertex2i(x, y + h);
+	FrameVertices();
 	glEnd();
 
 	glColor4f(0.6, 0.6, 1.0, 0.4);
 	glBegin(GL_LINE_LOOP);
-	glVertex2i(x, y);
-	glVertex2i(x + w, y);
-	glVertex2i(x + w, y + h);
-	glVertex2i(x, y + h);
+	FrameVertices();
 	glEnd();
-
 }
 
 void PauseMenu::RenderMenuItems()
@@ -116,13 +112,21 @@ void PauseMenu::Render()
 
 void PauseMenu::Init(int w, int h)
 {
-	const int left = 200;
+	int left;
 	const int step = 50;
-	int y = 500;
+	int top;
 
-	menuItems_.push_back({ std::string("Resume"), left, y, false, GameState::gsPLAY });
-	y -= step;
-	menuItems_.push_back({ std::string("Save & Quit"), left, y, false, GameState::gsSAVEGAME });
+	x_ = 150; 
+	y_ = 150;
+	width_ = 320;
+	height_ = 130;
+
+	left = x_ + 50;
+	top = y_ + 50;
+
+	menuItems_.push_back({ std::string("Resume"), left, top, false, GameState::gsPLAY });
+	top += step;
+	menuItems_.push_back({ std::string("Save & Quit"), left, top, false, GameState::gsSAVEGAME });
 
 	selected_ = menuItems_.begin();
 	resumeMenuItem_ = selected_;

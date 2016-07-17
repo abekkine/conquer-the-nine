@@ -22,6 +22,8 @@ private:
 	MenuContainerType::iterator resumeMenuItem_;
 	MenuContainerType::iterator selected_;
 	unsigned char flagPauseState_;
+	int x_, y_;
+	int width_, height_;
 public:
 	PauseMenu();
 	~PauseMenu();
@@ -34,6 +36,7 @@ public:
 	virtual void Init(int w, int h);
 
 private:
+	void FrameVertices();
 	bool CanDispatch();
 	void SelectNextCircular();
 	void SelectPrevCircular();

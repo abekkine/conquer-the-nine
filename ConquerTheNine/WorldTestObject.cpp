@@ -22,7 +22,7 @@ bool WorldTestObject::StateMismatch()
 		return true;
 }
 
-void WorldTestObject::Init()
+void WorldTestObject::Init(int w, int h)
 {
 	a = 0.0;
 }

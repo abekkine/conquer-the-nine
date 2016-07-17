@@ -28,7 +28,7 @@ double Universe::RandomBetween(double min, double max)
 	return dist(generator_);
 }
 
-void Universe::Init()
+void Universe::Init(int w, int h)
 {
 	// Create 100 dummy objects.
 	// x E [-900.0, +900.0],

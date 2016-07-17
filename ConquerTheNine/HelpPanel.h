@@ -21,7 +21,7 @@ public:
 	virtual void MouseButtonEvent(int button, int action, int mods) {}
 	virtual void CursorPositionEvent(double x, double y) {}
 	virtual void Render();
-	virtual void Init();
+	virtual void Init(int w, int h);
 
 private:
 	void RenderFrame();

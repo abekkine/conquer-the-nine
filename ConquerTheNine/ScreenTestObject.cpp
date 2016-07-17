@@ -24,7 +24,7 @@ bool ScreenTestObject::StateMismatch()
 		return true;
 }
 
-void ScreenTestObject::Init()
+void ScreenTestObject::Init(int w, int h)
 {
 	try {
 		TextManager::Instance()->AddFont("ubuntu", "c:/source/fonts/ubuntumono/ubuntumono-r.ttf");

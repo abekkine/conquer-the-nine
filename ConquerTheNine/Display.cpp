@@ -174,7 +174,7 @@ void Display::InitObjects()
 	{
 		for (j = (i->second).objects.begin(); j != (i->second).objects.end(); ++j)
 		{
-			(*j)->Init();
+			(*j)->Init(scrWidth_, scrHeight_);
 		}
 	}
 }

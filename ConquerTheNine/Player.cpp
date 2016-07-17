@@ -108,7 +108,7 @@ void Player::Render()
 	glPopMatrix();
 }
 
-void Player::Init()
+void Player::Init(int w, int h)
 {
 	x_ = 0.0;
 	y_ = 0.0;

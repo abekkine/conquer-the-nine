@@ -56,7 +56,7 @@ void HelpPanel::Render()
 	RenderHelpItems();
 }
 
-void HelpPanel::Init()
+void HelpPanel::Init(int w, int h)
 {
 	flagShowHelp_ = true;
 	x_ = 200; y_ = 150;

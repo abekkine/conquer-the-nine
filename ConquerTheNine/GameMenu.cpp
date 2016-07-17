@@ -82,7 +82,7 @@ void GameMenu::Render()
 	}
 }
 
-void GameMenu::Init()
+void GameMenu::Init(int w, int h)
 {
 	const int left = 100;
 	const int step = 50;

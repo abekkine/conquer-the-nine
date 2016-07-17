@@ -113,7 +113,7 @@ void GameSettings::LoadItemValue(SettingItem* s)
 	}
 }
 
-void GameSettings::Init()
+void GameSettings::Init(int w, int h)
 {
 	const int left = 100;
 	const int step = 50;

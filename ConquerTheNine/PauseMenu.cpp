@@ -114,7 +114,7 @@ void PauseMenu::Render()
 	RenderMenuItems();
 }
 
-void PauseMenu::Init()
+void PauseMenu::Init(int w, int h)
 {
 	const int left = 200;
 	const int step = 50;

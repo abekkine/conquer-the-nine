@@ -9,7 +9,7 @@ public:
 	ScreenTestObject();
 	~ScreenTestObject();
 
-	virtual bool KeyEvent(int key, int scancode, int action, int mods) { return false; }
+	virtual bool KeyEvent(int key, int scancode, int action, int mods);
 	virtual void MouseButtonEvent(int button, int action, int mods) {}
 	virtual void CursorPositionEvent(double x, double y) {}
 	virtual void Render();

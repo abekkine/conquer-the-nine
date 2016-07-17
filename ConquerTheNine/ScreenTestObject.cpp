@@ -38,6 +38,19 @@ void ScreenTestObject::Init()
 	TextManager::Instance()->Init();
 }
 
+bool ScreenTestObject::KeyEvent(int key, int scancode, int action, int mods)
+{
+	bool dispatch = false;
+
+	if (action == GLFW_PRESS && key == GLFW_KEY_ESCAPE)
+	{
+		GameState::Instance()->State(GameState::gsMENU);
+		dispatch = true;
+	}
+
+	return dispatch;
+}
+
 void ScreenTestObject::Render()
 {
 	if (StateMismatch())

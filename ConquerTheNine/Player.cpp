@@ -51,27 +51,31 @@ bool Player::KeyEvent(int key, int scancode, int action, int mods)
 		{
 		case GLFW_KEY_UP:
 			if (action != GLFW_RELEASE)
-				vy_ = 1.0;
+				vy_ += 1.0;
 			else
-				vy_ = 0.0;
+				vy_ = vy_;
 			break;
 		case GLFW_KEY_DOWN:
 			if (action != GLFW_RELEASE)
-				vy_ = -1.0;
+				vy_ -= 1.0;
 			else
-				vy_ = 0.0;
+				vy_ = vy_;
 			break;
 		case GLFW_KEY_LEFT:
 			if (action != GLFW_RELEASE)
-				vx_ = -1.0;
+				vx_ -= 1.0;
 			else
-				vx_ = 0.0;
+				vx_ = vx_;
 			break;
 		case GLFW_KEY_RIGHT:
 			if (action != GLFW_RELEASE)
-				vx_ = 1.0;
+				vx_ += 1.0;
 			else
-				vx_ = 0.0;
+				vx_ = vx_;
+			break;
+		case GLFW_KEY_R:
+			vx_ = 0.0;
+			vy_ = 0.0;
 			break;
 		}
 	}

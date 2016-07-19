@@ -10,13 +10,13 @@ class Universe : public DisplayObjectInterface
 {
 private:
 	std::default_random_engine generator_;
-	struct DummyObject {
+	struct Body {
 		double x, y;
-		double size;
-		double shade;
+		double radius;
+		double color[3];
 	};
-	typedef std::vector<DummyObject*> DummyContainerType;
-	DummyContainerType objects_;
+	typedef std::vector<Body*> BodyContainerType;
+	BodyContainerType starSystem_;
 
 public:
 	Universe();
@@ -31,6 +31,8 @@ public:
 
 private:
 	double RandomBetween(double min, double max);
+	void RenderDisk(double r, double step=0.1);
+	void RenderBody(Body* pBody);
 };
 
 #endif // UNIVERSE_H_

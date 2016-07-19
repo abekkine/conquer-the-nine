@@ -84,13 +84,6 @@ void Player::Render()
 	if (StateMismatch())
 		return;
 
-	x_ += vx_;
-	y_ += vy_;
-
-	// Update viewport;
-	viewport_->cx = x_;
-	viewport_->cy = y_;
-
 	double s = 2.5;
 
 	glPushMatrix();
@@ -106,6 +99,13 @@ void Player::Render()
 	glEnd();
 
 	glPopMatrix();
+
+	x_ += vx_;
+	y_ += vy_;
+
+	// Update viewport;
+	viewport_->cx = x_;
+	viewport_->cy = y_;
 }
 
 void Player::Init(int w, int h)

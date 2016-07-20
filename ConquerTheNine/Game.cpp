@@ -14,6 +14,7 @@
 #include "GameSettings.h"
 #include "Universe.h"
 #include "Player.h"
+#include "GameText.h"
 
 Game::Game()
 {
@@ -62,9 +63,6 @@ void Game::Init()
 		menu->SaveFileExists(saveManager_->CheckSaveData());
 		Display::Instance()->AddDisplayObject("text", menu);
 
-		obj = new PauseMenu();
-		Display::Instance()->AddDisplayObject("text", obj);
-
 		obj = new HelpPanel();
 		Display::Instance()->AddDisplayObject("text", obj);
 
@@ -78,6 +76,14 @@ void Game::Init()
 		p->RegisterViewport(vp);
 		Display::Instance()->AddDisplayObject("game", p);
 		saveManager_->RegisterEntity(p);
+
+		GameText* gt = new GameText();
+		gt->RegisterPlayer(p);
+		gt->RegisterUniverse(u);
+		Display::Instance()->AddDisplayObject("text", gt);
+
+		obj = new PauseMenu();
+		Display::Instance()->AddDisplayObject("text", obj);
 
 		bool fsFlag = settings_->GetFullscreenFlag();
 		int w, h;

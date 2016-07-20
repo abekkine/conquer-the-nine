@@ -38,6 +38,7 @@ public:
 	// Saveable interface
 	void Save(std::fstream& s);
 	void Load(std::fstream& s);
+	void GetPosition(double& x, double& y) { x = x_; y = y_; }
 };
 
 #endif // PLAYER_H_

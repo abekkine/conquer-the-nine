@@ -71,8 +71,8 @@ void Game::Init()
 		settings_ = new GameSettings();
 		Display::Instance()->AddDisplayObject("text", settings_);
 
-		obj = new Universe();
-		Display::Instance()->AddDisplayObject("game", obj);
+		Universe* u = new Universe();
+		Display::Instance()->AddDisplayObject("game", u);
 
 		Player* p = new Player();
 		p->RegisterViewport(vp);

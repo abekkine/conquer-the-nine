@@ -38,6 +38,16 @@ void TextManager::Init()
 	font_ = defaultFont_;
 }
 
+void TextManager::Render(const char* fmt, ...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+	vsnprintf(pBuffer_, 1000, fmt, ap);
+	va_end(ap);
+
+	font_->Render(pBuffer_);
+}
+
 void TextManager::Render(std::string message)
 {
 	font_->Render(message.c_str());

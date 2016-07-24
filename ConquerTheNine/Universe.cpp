@@ -4,6 +4,15 @@
 
 #include "GameState.h"
 
+// in AU, 3.2 in light minutes.
+double Universe::distanceUnit_ = 0.4;
+// in kilometers
+double Universe::radiusUnit_ = 500.0;
+double Universe::distanceFactor_ = 7500.0;
+double Universe::radiusFactor_ = 4.0;
+
+double Universe::speedLimit_ = 0.0;
+
 Universe::Universe()
 {
 }
@@ -30,11 +39,6 @@ double Universe::RandomBetween(double min, double max)
 
 void Universe::Init(int w, int h)
 {
-	// Create 100 dummy objects.
-	// x E [-900.0, +900.0],
-	// y E [-900.0, +900.0],
-	// size E [+10.0, +50.0],
-	// shade E [0.5, 1.0]
 	struct {
 		double x, y, r;
 		double c[3];
@@ -51,17 +55,17 @@ void Universe::Init(int w, int h)
 		{ 75.0, 0.0,   49.0, {1.0, 1.0, 1.0}},
 		{ 99.0, 0.0,    2.5, {1.0, 1.0, 1.0}}
 	};
-	double distanceFactor = 7500.0; //750000.0;
-	double radiusFactor = 4.0;
+	
+	Universe::speedLimit_ = Universe::distanceFactor_ * 0.0021 / Universe::distanceUnit_;
 
 	Body* obj;
 
 	for (int i = 0; i < 11; i++)
 	{
 		obj = new Body();
-		obj->x = filler[i].x * distanceFactor;
-		obj->y = filler[i].y;
-		obj->radius = filler[i].r * radiusFactor;
+		obj->x = filler[i].x * Universe::distanceFactor_;
+		obj->y = -filler[i].r * Universe::radiusFactor_; //filler[i].y;
+		obj->radius = filler[i].r * Universe::radiusFactor_;
 		obj->color[0] = filler[i].c[0];
 		obj->color[1] = filler[i].c[1];
 		obj->color[2] = filler[i].c[2];
@@ -69,10 +73,26 @@ void Universe::Init(int w, int h)
 	}
 }
 
+void Universe::GetBodyLocations(std::vector<double>& locations)
+{
+	double x;
+	double xMin = 1e100;
+	double xMax = -1e100;
+	for (auto i = starSystem_.begin(); i != starSystem_.end(); ++i)
+	{
+		x = (*i)->x;
+		if (x < xMin) xMin = x;
+		if (x > xMax) xMax = x;
+		locations.push_back(x);
+	}
+	locations.push_back(xMin);
+	locations.push_back(xMax);
+}
+
 void Universe::RenderDisk(double r, double step)
 {
-	//glBegin(GL_TRIANGLE_FAN);
-	glBegin(GL_LINE_LOOP);
+	glBegin(GL_TRIANGLE_FAN);
+	//glBegin(GL_LINE_LOOP);
 	glVertex2d(0.0, 0.0);
 	for (double a = 0.0; a < 6.28318 + step; a += step)
 	{
@@ -107,5 +127,15 @@ void Universe::Render()
 	}
 
 	glPopMatrix();
+}
+
+double Universe::GetDistanceInAU(double d)
+{
+	return d * Universe::distanceUnit_ / Universe::distanceFactor_;
+}
+
+double Universe::GetSpeedInC(double v)
+{
+	return v / Universe::speedLimit_;
 }
 

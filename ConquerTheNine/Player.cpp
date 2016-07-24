@@ -2,8 +2,10 @@
 
 #include <GLFW/glfw3.h>
 
+#include <mutex>
 #include <iostream>
 
+#include "Universe.h"
 #include "GameState.h"
 
 Player::Player()
@@ -51,29 +53,33 @@ bool Player::KeyEvent(int key, int scancode, int action, int mods)
 		{
 		case GLFW_KEY_UP:
 			if (action != GLFW_RELEASE)
-				vy_ += 1.0;
+				ax_ *= 1.25;
 			else
-				vy_ = vy_;
+				ax_ = ax_;
 			break;
 		case GLFW_KEY_DOWN:
 			if (action != GLFW_RELEASE)
-				vy_ -= 1.0;
+				ax_ *= 0.5;
 			else
-				vy_ = vy_;
+				ax_ = ax_;
 			break;
 		case GLFW_KEY_LEFT:
 			if (action != GLFW_RELEASE)
-				vx_ -= 1.0;
+				ax_ -= 1.0;
 			else
-				vx_ = vx_;
+				ax_ = ax_;
 			break;
 		case GLFW_KEY_RIGHT:
 			if (action != GLFW_RELEASE)
-				vx_ += 1.0;
+				ax_ += 1.0;
 			else
-				vx_ = vx_;
+				ax_ = ax_;
 			break;
-		case GLFW_KEY_R:
+		case GLFW_KEY_A:
+			ax_ = 0.0;
+			ay_ = 0.0;
+			break;
+		case GLFW_KEY_V:
 			vx_ = 0.0;
 			vy_ = 0.0;
 			break;
@@ -96,28 +102,52 @@ void Player::Render()
 
 	glColor3f(1.0, 0.0, 0.0);
 	glBegin(GL_QUADS);
-	glVertex2d(-s, -s);
-	glVertex2d(-s, s);
-	glVertex2d(s, s);
-	glVertex2d(s, -s);
+	glVertex2d(-s, -0.3*s);
+	glVertex2d(-s, 0.3*s);
+	glVertex2d(s, 0.3*s);
+	glVertex2d(s, -0.3*s);
 	glEnd();
 
 	glPopMatrix();
 
-	x_ += vx_;
-	y_ += vy_;
+	UpdatePhysics();
 
 	// Update viewport;
 	viewport_->cx = x_;
 	viewport_->cy = y_;
 }
 
+void Player::UpdatePhysics()
+{
+	double deltaTime;
+	curTime_ = glfwGetTime();
+	deltaTime = curTime_ - prevTime_;
+	prevTime_ = curTime_;
+
+	// Update
+	std::mutex g;
+	g.lock();
+	vx_ = vx_ + deltaTime * ax_;
+	if (abs(vx_) >= Universe::speedLimit_)
+	{
+		vx_ = 0.99 * Universe::speedLimit_;
+		if (ax_ < 0.0) vx_ = -vx_;
+	}
+	g.unlock();
+
+	x_ = x_ + deltaTime * vx_;
+}
+
 void Player::Init(int w, int h)
 {
-	x_ = 0.0;
+	x_ = -18750.0;
 	y_ = 0.0;
 	vx_ = 0.0;
 	vy_ = 0.0;
+	ax_ = 0.0;
+	ay_ = 0.0;
+	prevTime_ = glfwGetTime();
+	curTime_ = prevTime_;
 }
 
 void Player::RegisterViewport(Display::Viewport* vp)

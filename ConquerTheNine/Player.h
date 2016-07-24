@@ -13,9 +13,13 @@ private:
 	double y_;
 	double vx_;
 	double vy_;
+	double ax_;
+	double ay_;
 	Display::Viewport* viewport_;
 	double vpHalfWidth_;
 	double vpHalfHeight_;
+	double prevTime_;
+	double curTime_;
 private:
 	struct {
 		double x;
@@ -39,6 +43,8 @@ public:
 	void Save(std::fstream& s);
 	void Load(std::fstream& s);
 	void GetPosition(double& x, double& y) { x = x_; y = y_; }
+	double GetSpeed() { return abs(vx_); }
+	void UpdatePhysics();
 };
 
 #endif // PLAYER_H_

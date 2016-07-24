@@ -19,6 +19,13 @@ private:
 	BodyContainerType starSystem_;
 
 public:
+	static double distanceUnit_;
+	static double radiusUnit_;
+	static double distanceFactor_;
+	static double radiusFactor_;
+	static double speedLimit_;
+
+public:
 	Universe();
 	~Universe();
 
@@ -28,6 +35,10 @@ public:
 	virtual void Render();
 	virtual void Init(int w, int h);
 	virtual bool StateMismatch();
+	void GetBodyLocations(std::vector<double>& locations);
+
+	static double GetDistanceInAU(double d);
+	static double GetSpeedInC(double v);
 
 private:
 	double RandomBetween(double min, double max);

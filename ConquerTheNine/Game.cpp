@@ -13,6 +13,7 @@
 #include "HelpPanel.h"
 #include "GameSettings.h"
 #include "Universe.h"
+#include "Background.h"
 #include "Player.h"
 #include "GameText.h"
 
@@ -71,6 +72,9 @@ void Game::Init()
 
 		Universe* u = new Universe();
 		Display::Instance()->AddDisplayObject("game", u);
+
+		obj = new Background();
+		Display::Instance()->AddDisplayObject("game", obj);
 
 		Player* p = new Player();
 		p->RegisterViewport(vp);

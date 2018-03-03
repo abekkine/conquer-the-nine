@@ -13,8 +13,11 @@ private:
 	double y_;
 	double vx_;
 	double vy_;
+    double fx_;
+    double fy_;
 	double ax_;
 	double ay_;
+    double mass_;
 	Display::Viewport* viewport_;
 	double vpHalfWidth_;
 	double vpHalfHeight_;
@@ -45,6 +48,7 @@ public:
 	void GetPosition(double& x, double& y) { x = x_; y = y_; }
 	double GetSpeed() { return abs(vx_); }
 	void UpdatePhysics();
+    void SetRelativisticViewport(double lf);
 };
 
 #endif // PLAYER_H_

@@ -53,31 +53,31 @@ bool Player::KeyEvent(int key, int scancode, int action, int mods)
 		{
 		case GLFW_KEY_UP:
 			if (action != GLFW_RELEASE)
-				ax_ *= 1.25;
+				fx_ *= 1.25;
 			else
-				ax_ = ax_;
+				fx_ = fx_;
 			break;
 		case GLFW_KEY_DOWN:
 			if (action != GLFW_RELEASE)
-				ax_ *= 0.5;
+				fx_ *= 0.5;
 			else
-				ax_ = ax_;
+				fx_ = fx_;
 			break;
 		case GLFW_KEY_LEFT:
 			if (action != GLFW_RELEASE)
-				ax_ -= 1.0;
+				fx_ -= 1.0;
 			else
-				ax_ = ax_;
+				fx_ = fx_;
 			break;
 		case GLFW_KEY_RIGHT:
 			if (action != GLFW_RELEASE)
-				ax_ += 1.0;
+				fx_ += 1.0;
 			else
-				ax_ = ax_;
+				fx_ = fx_;
 			break;
 		case GLFW_KEY_A:
-			ax_ = 0.0;
-			ay_ = 0.0;
+			fx_ = 0.0;
+			fy_ = 0.0;
 			break;
 		case GLFW_KEY_V:
 			vx_ = 0.0;
@@ -124,18 +124,26 @@ void Player::UpdatePhysics()
 	deltaTime = curTime_ - prevTime_;
 	prevTime_ = curTime_;
 
+    double vInC = vx_ / Universe::speedLimit_;
+    double lorentzFactor = sqrt(1.0 - vInC * vInC);
+    double effectiveMass = mass_ / lorentzFactor;
+
 	// Update
 	std::mutex g;
 	g.lock();
+    ax_ = fx_ / effectiveMass;
 	vx_ = vx_ + deltaTime * ax_;
-	if (abs(vx_) >= Universe::speedLimit_)
-	{
-		vx_ = 0.99 * Universe::speedLimit_;
-		if (ax_ < 0.0) vx_ = -vx_;
-	}
 	g.unlock();
 
+
+    SetRelativisticViewport(lorentzFactor);
+
 	x_ = x_ + deltaTime * vx_;
+}
+
+void Player::SetRelativisticViewport(double lf) {
+
+    viewport_->widthFactor = 1.0 / lf;
 }
 
 void Player::Init(int w, int h)
@@ -146,6 +154,9 @@ void Player::Init(int w, int h)
 	vy_ = 0.0;
 	ax_ = 0.0;
 	ay_ = 0.0;
+    fx_ = 0.0;
+    fy_ = 0.0;
+    mass_ = 1000.0;
 	prevTime_ = glfwGetTime();
 	curTime_ = prevTime_;
 }

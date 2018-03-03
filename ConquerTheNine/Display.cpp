@@ -263,7 +263,7 @@ void Display::InitDisplay()
 void Display::UpdateViewport(Viewport& vp)
 {
 	// Calculate viewport
-	double realWidth = scrWidth_ * vp.unitsPerPixel;
+	double realWidth = scrWidth_ * vp.unitsPerPixel * vp.widthFactor;
 	double realHeight = scrHeight_ * vp.unitsPerPixel;
 	double vpLeft, vpRight, vpTop, vpBottom;
 

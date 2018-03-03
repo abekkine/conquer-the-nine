@@ -20,12 +20,14 @@ public:
 	struct Viewport {
 		ViewportType type;
 		double unitsPerPixel;
+		double widthFactor;
 		double cx, cy;
 		double left, right, bottom, top;
-		Viewport() { 
+		Viewport() {
 			type = vtBottomLeftOrigin;
 			unitsPerPixel = 1.0;
-			cx = cy = 0.0; 
+			widthFactor = 1.0;
+			cx = cy = 0.0;
 			left = bottom = -1.0; right = top = 1.0;
 		}
 	};
@@ -85,5 +87,3 @@ public:
 };
 
 #endif // DISPLAY_H_
-
-
